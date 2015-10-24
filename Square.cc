@@ -38,11 +38,12 @@ void Square::FillVBO() {
     -0.5f, -0.5f, 0.5f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f,
     -0.5f, 0.5f, 0.5f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f,
 
-    0.5f,  0.5f,  -0.5f, 0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f,
-    0.5f, -0.5f,  -0.5f, 0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f,
-    -0.5f, -0.5f,  -0.5f, 0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f,
-    -0.5f, 0.5f, -0.5f, 0.0f,0.0f,1.0f, 0.0f,1.0f,0.0f  };
+    0.5f,  0.5f,  -0.5f, 0.0f,0.0f,-1.0f, 0.0f,1.0f,0.0f,
+    0.5f, -0.5f,  -0.5f, 0.0f,0.0f,-1.0f, 0.0f,1.0f,0.0f,
+    -0.5f, -0.5f,  -0.5f, 0.0f,0.0f,-1.0f, 0.0f,1.0f,0.0f,
+    -0.5f, 0.5f, -0.5f, 0.0f,0.0f,-1.0f, 0.0f,1.0f,0.0f  };
 
+  numPoints = 18;
   unsigned short pointsIndex[] = {
     0,1,2,2,3,0,
     4,6,5,6,4,7,
@@ -61,7 +62,7 @@ void Square::FillVBO() {
   sstm.str(std::string());
   sstm << "Square iboPoints: " << iboPoints << std::endl;
   logger->info(sstm.str());
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,18*sizeof(unsigned short), pointsIndex, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,numPoints*sizeof(unsigned short), pointsIndex, GL_STATIC_DRAW);
 
   glEnableVertexAttribArray(attribute_vp);
   glVertexAttribPointer (attribute_vp, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure), (GLubyte*)NULL);
@@ -94,7 +95,7 @@ void Square::Render() {
   logger->info(sstm.str());
   
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
-  glDrawElements(GL_TRIANGLES,18,GL_UNSIGNED_SHORT,0);
+  glDrawElements(GL_TRIANGLES,numPoints,GL_UNSIGNED_SHORT,0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   Unbind();

@@ -59,6 +59,8 @@ private:
   virtual void Gen();
   void ZoomCamera();
   void Reset();
+  void BuildView();
+  void BuildPerspective();
   void RenderRay();
 };
 

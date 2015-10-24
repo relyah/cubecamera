@@ -180,11 +180,21 @@ void Camera::Reset() {
 
   cameraRotate = glm::vec2(0.0f, 0.0f);
 
-  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+  BuildView();
 
-  projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
+  BuildPerspective();
+
+
 
   isChanged = true;
+}
+
+void Camera::BuildView() {
+  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+}
+
+void Camera::BuildPerspective() {
+  projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
 }
 
 void Camera::RenderRay() {

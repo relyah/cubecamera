@@ -100,28 +100,3 @@ void OpenGLProgram::InitProgram() {
   logger->info(sstm.str());
 }
 
-/*
-  void OpenGLProgram::InitVAO() {
-
-  /*GLfloat verts[] = 
-  {
-  +0.0f, +1.0f,
-  -1.0f, -1.0f,
-  +1.0f, -1.0f,
-  };
-*/
-//GenVAO();
-//glGenVertexArrays(1, &vao);
-//glBindVertexArray(vao);
-
-/*glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
-
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-  glBindVertexArray(0);
-
-  glDeleteBuffers(1, &vbo);*/
-//}
-
