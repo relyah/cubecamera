@@ -31,7 +31,7 @@ glm::mat4 SquareModel::GetView() {
 
 
 glm::mat4 SquareModel::GetProjection() {
-  return projection;
+  return camera->GetProjection();// projection;
 }
 
 void SquareModel::OnKeyReleased(int key) {

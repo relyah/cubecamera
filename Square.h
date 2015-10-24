@@ -29,6 +29,7 @@ private:
   int numPoints;
 
   void FillVBO();
+
 };
 
 #endif

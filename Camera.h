@@ -61,6 +61,7 @@ private:
   void Reset();
   void BuildView();
   void BuildPerspective();
+  double cotan(double i);
   void RenderRay();
 };
 

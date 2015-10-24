@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#define PI 3.14159265
+
 Camera::Camera(IOpenGLProgram *program, int screenWidth, int screenHeight)
   : AbstractObject(program,this), screenWidth(screenWidth), screenHeight(screenHeight){
   logger = Logger::GetLogger();
@@ -215,8 +217,22 @@ void Camera::BuildView() {
 }
 
 void Camera::BuildPerspective() {
-  projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
+  //projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
+
+  float fovdeg = 15.0f;
+  float aspect = screenWidth / screenHeight;
+  float f = cotan(0.5 * fovdeg * PI / 180.0);
+  float near = -0.1f;
+  float far = -100.0f;
+  float fn = (far+near)/(near-far);
+
+  projection[0][0] = f/aspect; projection[1][0] = 0.0; projection[2][0] = 0.0; projection[3][0] = 0.0;
+  projection[0][1] = 0.0; projection[1][1] = f; projection[2][1] = 0.0; projection[3][1] = 0.0;
+  projection[0][2] = 0.0; projection[1][2] = 0.0; projection[2][2] = fn; projection[3][2] = 2.0*fn;
+  projection[0][3] = 0.0; projection[1][3] = 0.0; projection[2][3] = -1.0; projection[3][3] = 0.0;
 }
+
+double Camera::cotan(double i) { return(1 / tan(i)); }
 
 void Camera::RenderRay() {
   //glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
