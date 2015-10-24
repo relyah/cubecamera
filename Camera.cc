@@ -190,7 +190,28 @@ void Camera::Reset() {
 }
 
 void Camera::BuildView() {
-  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+  //view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+
+  glm::vec3 look = cameraLookAt - cameraPosition;
+  glm::vec3 w = -glm::normalize(look);
+
+  glm::vec3 v = glm::normalize(cameraUp - glm::dot(cameraUp,w)*w);
+
+  glm::vec3 u = glm::cross(v,w);
+
+  glm::mat4 t = glm::mat4(1.0f);
+  t[3][0] = -cameraPosition[0];
+  t[3][1] = -cameraPosition[1];
+  t[3][2] = -cameraPosition[2];
+  t[3][3] = 1.0;
+
+  glm::mat4 r;
+  r[0][0] = u[0]; r[1][0]= u[1]; r[2][0]=u[2]; r[3][0]=0.0f;
+  r[0][1] = v[0]; r[1][1]= v[1]; r[2][1]=v[2]; r[3][1]=0.0f;
+  r[0][2] = w[0]; r[1][2]= w[1]; r[2][2]=w[2]; r[3][2]=0.0f;
+  r[0][3] = 0.0f; r[1][3]= 0.0f; r[2][3]=0.0f; r[3][3]=1.0f;
+
+  view = t*r;
 }
 
 void Camera::BuildPerspective() {
