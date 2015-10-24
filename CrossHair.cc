@@ -40,6 +40,8 @@ void CrossHair::Init() {
   glVertexAttribPointer(attribute_vc, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, colour));
 
   glBindBuffer(GL_ARRAY_BUFFER,0);
+
+  Unbind();
 }
 
 void CrossHair::Render() {

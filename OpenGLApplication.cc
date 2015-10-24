@@ -21,12 +21,12 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->AddObject(crossHair);
   program->AddObject(crossHairLocal);
 
-  /*inputManager->RegisterListener((IKeyReleasedListener*)model);
+  inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);
   inputManager->RegisterListener((IScrollListener*)camera);
   inputManager->RegisterListener((IDragListener*)camera);
   inputManager->RegisterListener((IButtonPressedListener*)camera);
-  inputManager->RegisterListener((IButtonReleasedListener*)camera);*/
+  inputManager->RegisterListener((IButtonReleasedListener*)camera);
 }
 
 OpenGLApplication::~OpenGLApplication() {
