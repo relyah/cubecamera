@@ -22,7 +22,7 @@ protected:
 
   virtual void Gen();
   virtual void Bind();
-
+  virtual void Unbind();
 };
 
 #endif

@@ -12,7 +12,6 @@
 #include "SquareModel.h"
 #include "Camera.h"
 #include "InputManager.h"
-#include "Intersector.h"
 
 class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener, public IDragListener, IButtonPressedListener, IButtonReleasedListener {
 public:
@@ -41,7 +40,6 @@ private:
   SquareModel *model;
   Camera *camera;
   InputManager *inputManager;
-  Intersector *intersector;
 };
 
 #endif

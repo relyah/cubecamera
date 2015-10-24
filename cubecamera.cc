@@ -198,8 +198,6 @@ int main (int argc, char *argv[])
   gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
   window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
   gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
-  //gtk_widget_add_events(GTK_WIDGET(window), GDK_BUTTON_PRESS);
-  //gtk_widget_add_events(GTK_WIDGET(window), GDK_POINTER_MOTION_MASK);
   gtk_widget_show_all (window);
   gtk_main ();
   return 0;

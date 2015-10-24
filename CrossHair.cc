@@ -56,6 +56,8 @@ void CrossHair::Render() {
   //glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glDrawArrays(GL_LINES,0,4);
   //glBindBuffer(GL_ARRAY_BUFFER,0);
+
+  Unbind();
 }
 
 void CrossHair::Shutdown() {

@@ -1,7 +1,5 @@
 #include "OpenGLApplication.h"
 
-#include "Ray.h"
-
 OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   :screenWidth(screenWidth), screenHeight(screenHeight){
   logger->info("Starting OpenGLApplication...");
@@ -13,10 +11,6 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   camera = new Camera(program, screenWidth, screenHeight);
   model = new SquareModel(camera,screenWidth, screenHeight);
   square = new Square(program, model);
-  glm::vec4 v1 = glm::vec4(1.0f);
-  glm::vec4 v2 = glm::vec4(1.0f);
-  Ray r(v1,v2);
-  (square)->Intersect(r);
   crossHairModel = new CrossHairModel();
   crossHair = new CrossHair(program,crossHairModel);
   crossHairLocal = new CrossHair(program,model);
@@ -27,18 +21,12 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->AddObject(crossHair);
   program->AddObject(crossHairLocal);
 
-  intersector = new Intersector(camera);
-  intersector->Add(dynamic_cast<IHitable*>(square));
-
-  inputManager->RegisterListener((IKeyReleasedListener*)model);
+  /*inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);
   inputManager->RegisterListener((IScrollListener*)camera);
   inputManager->RegisterListener((IDragListener*)camera);
   inputManager->RegisterListener((IButtonPressedListener*)camera);
-  inputManager->RegisterListener((IButtonReleasedListener*)camera);
-  inputManager->RegisterListener((IDragListener*)intersector);
-  inputManager->RegisterListener((IButtonPressedListener*)intersector);
-  inputManager->RegisterListener((IButtonReleasedListener*)intersector);
+  inputManager->RegisterListener((IButtonReleasedListener*)camera);*/
 }
 
 OpenGLApplication::~OpenGLApplication() {
@@ -51,7 +39,6 @@ OpenGLApplication::~OpenGLApplication() {
   delete program;
   delete manager;
   delete inputManager;
-  delete intersector;
   logger->info("Stopped OpenGLApplication.");
   logger = 0;
 }
