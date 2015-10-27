@@ -17,10 +17,23 @@
 
 OpenGLApplication *app;
 log4cpp::Category* logger = Logger::GetLogger();
+GtkRevealer *rvlEye, *rvlLook;
 
 static void on_window_closed (GtkWidget *widget, gpointer data)
 {
   gtk_main_quit ();
+}
+
+static void onRvlEye (GtkWidget *w, gpointer d)
+{
+  gboolean revealed = gtk_revealer_get_child_revealed (rvlEye);
+  gtk_revealer_set_reveal_child (rvlEye, !revealed);
+}
+
+static void onRvlLook (GtkWidget *w, gpointer d)
+{
+  gboolean revealed = gtk_revealer_get_child_revealed (rvlLook);
+  gtk_revealer_set_reveal_child (rvlLook, !revealed);
 }
 
 static gboolean key_release_event(GtkWidget *widget,
@@ -72,20 +85,21 @@ static void motion_notify_event(GtkWindow *widget,
   }
 }
 
-static void button_press_event(GtkWindow *widget,
+static void button_press_event(GtkGLArea *widget,
                                GdkEvent  *event,
                                gpointer   user_data) {
 
   logger->info("c pressed");
   GdkEventButton* evtBtn = (GdkEventButton*)event;
+  std::cout << "btn x: "<<evtBtn->x <<", y: " << evtBtn->y << std::endl;
   app->OnButtonPressed(evtBtn->button, evtBtn->x, evtBtn->y);
 
   gtk_widget_queue_draw((GtkWidget*)widget);
 }
 
 static void button_release_event(GtkWindow *widget,
-                               GdkEvent  *event,
-                               gpointer   user_data) {
+                                 GdkEvent  *event,
+                                 gpointer   user_data) {
 
   logger->info("c released");
   GdkEventButton* evtBtn = (GdkEventButton*)event;
@@ -105,7 +119,7 @@ static void resize (GtkGLArea *area,
                     gint       height,
                     gpointer   user_data) {
 
-    printf("Resize width: %d, height: %d\n",width,height);
+  printf("Resize width: %d, height: %d\n",width,height);
 }
 
 static gboolean render(GtkGLArea *area, GdkGLContext *context)
@@ -178,7 +192,11 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(button_press_event),user_data);
   } else if (g_strcmp0(handler_name, "button_release_event")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(button_release_event),user_data);
-  } else {
+  } else if (g_strcmp0(handler_name, "onRvlEye")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(onRvlEye),user_data);
+  }else if (g_strcmp0(handler_name, "onRvlLook")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(onRvlLook),user_data);
+  }else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }
 }
@@ -197,6 +215,8 @@ int main (int argc, char *argv[])
   //gtk_builder_connect_signals (builder, builder);
   gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
   window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
+  rvlEye = (GtkRevealer *)gtk_builder_get_object (builder, "rvlEye");
+  rvlLook = (GtkRevealer *)gtk_builder_get_object (builder, "rvlLook");
   gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
   gtk_widget_show_all (window);
   gtk_main ();
