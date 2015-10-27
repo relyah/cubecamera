@@ -20,8 +20,8 @@ log4cpp::Category* logger = Logger::GetLogger();
 GtkWidget *window;
 GtkEventBox *evtBxGLArea;
 GtkBuilder *builder;
-GtkRevealer *rvlEye, *rvlLook, *rvlUp;
-GtkScale *sclEyeX, *sclEyeY, *sclEyeZ, *sclLookX, *sclLookY, *sclLookZ, *sclUpX, *sclUpY, *sclUpZ;
+GtkRevealer *rvlEye, *rvlLookAt, *rvlUp;
+GtkScale *sclEyeX, *sclEyeY, *sclEyeZ, *sclLookAtX, *sclLookAtY, *sclLookAtZ, *sclUpX, *sclUpY, *sclUpZ;
 
 static void on_window_closed (GtkWidget *widget, gpointer data)
 {
@@ -33,14 +33,19 @@ static void onScl (GtkRange *range, gpointer  user_data) {
   double eyeY = gtk_range_get_value((GtkRange*)sclEyeY);
   double eyeZ = gtk_range_get_value((GtkRange*)sclEyeZ);
 
-  double lookX = gtk_range_get_value((GtkRange*)sclLookX);
-  double lookY = gtk_range_get_value((GtkRange*)sclLookY);
-  double lookZ = gtk_range_get_value((GtkRange*)sclLookZ);
+  double lookAtX = gtk_range_get_value((GtkRange*)sclLookAtX);
+  double lookAtY = gtk_range_get_value((GtkRange*)sclLookAtY);
+  double lookAtZ = gtk_range_get_value((GtkRange*)sclLookAtZ);
 
   double upX = gtk_range_get_value((GtkRange*)sclUpX);
   double upY = gtk_range_get_value((GtkRange*)sclUpY);
   double upZ = gtk_range_get_value((GtkRange*)sclUpZ);
 
+  glm::vec3 eye = glm::vec3(eyeX,eyeY,eyeZ);
+  glm::vec3 lookAt = glm::vec3(lookAtX,lookAtY,lookAtZ);
+  glm::vec3 up = glm::vec3(upX,upY,upZ);
+
+  app->UpdateCamera(eye,lookAt,up);
 }
 
 static void onRvlEye (GtkWidget *w, gpointer d)
@@ -49,10 +54,10 @@ static void onRvlEye (GtkWidget *w, gpointer d)
   gtk_revealer_set_reveal_child (rvlEye, !revealed);
 }
 
-static void onRvlLook (GtkWidget *w, gpointer d)
+static void onRvlLookAt (GtkWidget *w, gpointer d)
 {
-  gboolean revealed = gtk_revealer_get_child_revealed (rvlLook);
-  gtk_revealer_set_reveal_child (rvlLook, !revealed);
+  gboolean revealed = gtk_revealer_get_child_revealed (rvlLookAt);
+  gtk_revealer_set_reveal_child (rvlLookAt, !revealed);
 }
 
 static void onRvlUp (GtkWidget *w, gpointer d)
@@ -219,8 +224,8 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(button_release_event),user_data);
   } else if (g_strcmp0(handler_name, "onRvlEye")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(onRvlEye),user_data);
-  } else if (g_strcmp0(handler_name, "onRvlLook")==0) {
-    g_signal_connect(object,signal_name,G_CALLBACK(onRvlLook),user_data);
+  } else if (g_strcmp0(handler_name, "onRvlLookAt")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(onRvlLookAt),user_data);
   } else if (g_strcmp0(handler_name, "onRvlUp")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(onRvlUp),user_data);
   } else if (g_strcmp0(handler_name, "onScl")==0) {
@@ -243,9 +248,9 @@ static void InitScales() {
   sclEyeY = (GtkScale *)gtk_builder_get_object(builder,"sclEyeY");
   sclEyeZ = (GtkScale *)gtk_builder_get_object(builder,"sclEyeZ");
 
-  sclLookX = (GtkScale *)gtk_builder_get_object(builder,"sclLookX");
-  sclLookY = (GtkScale *)gtk_builder_get_object(builder,"sclLookY");
-  sclLookZ = (GtkScale *)gtk_builder_get_object(builder,"sclLookZ");
+  sclLookAtX = (GtkScale *)gtk_builder_get_object(builder,"sclLookAtX");
+  sclLookAtY = (GtkScale *)gtk_builder_get_object(builder,"sclLookAtY");
+  sclLookAtZ = (GtkScale *)gtk_builder_get_object(builder,"sclLookAtZ");
 
   sclUpX = (GtkScale *)gtk_builder_get_object(builder,"sclUpX");
   sclUpY = (GtkScale *)gtk_builder_get_object(builder,"sclUpY");
@@ -254,7 +259,7 @@ static void InitScales() {
 
 static void InitRevealers() {
   rvlEye = (GtkRevealer *)gtk_builder_get_object (builder, "rvlEye");
-  rvlLook = (GtkRevealer *)gtk_builder_get_object (builder, "rvlLook");
+  rvlLookAt = (GtkRevealer *)gtk_builder_get_object (builder, "rvlLookAt");
   rvlUp = (GtkRevealer *)gtk_builder_get_object (builder, "rvlUp");
 }
 

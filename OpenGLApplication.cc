@@ -60,6 +60,10 @@ void OpenGLApplication::Shutdown() {
   logger->info("Shutdown OpenGLApplication...");
 }
 
+void OpenGLApplication::UpdateCamera(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up) {
+  logger->info("update camera");
+}
+
 void OpenGLApplication::OnKeyReleased(int key) {
   inputManager->OnKeyReleased(key);
 }

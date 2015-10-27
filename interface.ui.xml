@@ -16,17 +16,17 @@
     <property name="value">-10</property>
   </object>
 
-  <object class="GtkAdjustment" id="adLookX">
+  <object class="GtkAdjustment" id="adLookAtX">
     <property name="upper">10</property>
     <property name="lower">-10</property>
     <property name="value">-10</property>
   </object>
-  <object class="GtkAdjustment" id="adLookY">
+  <object class="GtkAdjustment" id="adLookAtY">
     <property name="upper">10</property>
     <property name="lower">-10</property>
     <property name="value">-10</property>
   </object>
-  <object class="GtkAdjustment" id="adLookZ">
+  <object class="GtkAdjustment" id="adLookAtZ">
     <property name="upper">10</property>
     <property name="lower">-10</property>
     <property name="value">-10</property>
@@ -313,14 +313,14 @@
                 </child> <!-- rvlEye -->
 
 
-                <child> <!-- btnLook -->
-                  <object class="GtkButton" id="btnLook">
+                <child> <!-- btnLookAt -->
+                  <object class="GtkButton" id="btnLookAt">
                     <property name="label" translatable="yes">Look</property>
-                    <property name="name">btnLook</property>
+                    <property name="name">btnLookAt</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="onRvlLook" swapped="no"/>
+                    <signal name="clicked" handler="onRvlLookAt" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -329,24 +329,24 @@
                 </child> <!-- btnLook -->
 
                 <child> <!-- rvlLook -->
-                  <object class="GtkRevealer" id="rvlLook">
+                  <object class="GtkRevealer" id="rvlLookAt">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="transition_type">GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN</property>
 
                     <child> <!-- grdLook -->
-                      <object class="GtkGrid" id="grdLook">
+                      <object class="GtkGrid" id="grdLookAt">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
 
-                        <child> <!-- bxLookX -->
-                          <object class="GtkBox" id="bxLookX">
+                        <child> <!-- bxLookAtX -->
+                          <object class="GtkBox" id="bxLookAtX">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
 
                             <child>
-                              <object class="GtkLabel" id="lblLookX">
+                              <object class="GtkLabel" id="lblLookAtX">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">X:</property>
@@ -360,17 +360,17 @@
                                 <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
-                            </child> <!-- lblLookX -->
+                            </child> <!-- lblLookAtX -->
 
                             <child>
-                              <object class="GtkScale" id="sclLookX">
+                              <object class="GtkScale" id="sclLookAtX">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="round_digits">1</property>
                                 <property name="digits">2</property>
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
-                                <property name="adjustment">adLookX</property>
+                                <property name="adjustment">adLookAtX</property>
                                 <property name="hexpand">1</property>
 
                                 <signal name="value-changed" handler="onScl" />
@@ -381,24 +381,24 @@
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
-                            </child> <!-- sclLookX -->
+                            </child> <!-- sclLookAtX -->
 
-                          </object> <!-- bxLook -->
+                          </object> <!-- bxLookAt -->
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">0</property>
                           </packing>
 
-                        </child> <!-- bxLookX -->
+                        </child> <!-- bxLookAtX -->
 
-                        <child> <!-- bxLookY -->
-                          <object class="GtkBox" id="bxLookY">
+                        <child> <!-- bxLookAtY -->
+                          <object class="GtkBox" id="bxLookAtY">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
 
                             <child>
-                              <object class="GtkLabel" id="lblLookY">
+                              <object class="GtkLabel" id="lblLookAtY">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Y:</property>
@@ -412,17 +412,17 @@
                                 <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
-                            </child> <!-- lblLookY -->
+                            </child> <!-- lblLookAtY -->
 
                             <child>
-                              <object class="GtkScale" id="sclLookY">
+                              <object class="GtkScale" id="sclLookAtY">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="round_digits">1</property>
                                 <property name="digits">2</property>
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
-                                <property name="adjustment">adLookY</property>
+                                <property name="adjustment">adLookAtY</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -432,24 +432,24 @@
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
-                            </child> <!-- sclLookY -->
+                            </child> <!-- sclLookAtY -->
 
-                          </object> <!-- bxLookY -->
+                          </object> <!-- bxLookAtY -->
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">1</property>
                           </packing>
 
-                        </child> <!-- bxLookY -->
+                        </child> <!-- bxLookAtY -->
 
-                        <child> <!-- bxLookZ -->
-                          <object class="GtkBox" id="bxLookZ">
+                        <child> <!-- bxLookAtZ -->
+                          <object class="GtkBox" id="bxLookAtZ">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
 
                             <child>
-                              <object class="GtkLabel" id="lblLookZ">
+                              <object class="GtkLabel" id="lblLookAtZ">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Z:</property>
@@ -463,17 +463,17 @@
                                 <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
-                            </child> <!-- lblLookZ -->
+                            </child> <!-- lblLookAtZ -->
 
                             <child>
-                              <object class="GtkScale" id="sclLookZ">
+                              <object class="GtkScale" id="sclLookAtZ">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="round_digits">1</property>
                                 <property name="digits">2</property>
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
-                                <property name="adjustment">adLookZ</property>
+                                <property name="adjustment">adLookAtZ</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -483,28 +483,28 @@
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
-                            </child> <!-- sclLookZ -->
+                            </child> <!-- sclLookAtZ -->
 
-                          </object> <!-- bxLookZ -->
+                          </object> <!-- bxLookAtZ -->
 
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">2</property>
                           </packing>
 
-                        </child> <!-- bxLookZ -->
+                        </child> <!-- bxLookAtZ -->
 
-                      </object> <!-- grdLook -->
+                      </object> <!-- grdLookAt -->
 
-                    </child> <!-- grdLook -->
+                    </child> <!-- grdLookAt -->
 
-                  </object> <!-- rvlLook -->
+                  </object> <!-- rvlLookAt -->
 
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">3</property>
                   </packing>
-                </child> <!-- rvlLook -->
+                </child> <!-- rvlLookAt -->
 
 
                 <child> <!-- btnUp -->
