@@ -61,7 +61,7 @@ void OpenGLApplication::Shutdown() {
 }
 
 void OpenGLApplication::UpdateCamera(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up) {
-  logger->info("update camera");
+  camera->Update(eye,lookAt,up);
 }
 
 void OpenGLApplication::OnKeyReleased(int key) {

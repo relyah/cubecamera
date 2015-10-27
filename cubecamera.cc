@@ -46,6 +46,8 @@ static void onScl (GtkRange *range, gpointer  user_data) {
   glm::vec3 up = glm::vec3(upX,upY,upZ);
 
   app->UpdateCamera(eye,lookAt,up);
+
+  gtk_widget_queue_draw((GtkWidget*)evtBxGLArea);
 }
 
 static void onRvlEye (GtkWidget *w, gpointer d)

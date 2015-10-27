@@ -96,6 +96,14 @@ void Camera::Shutdown() {
 
 void Camera::Update(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up) {
   logger->info("camera updating view...");
+
+  cameraPosition = glm::vec3(eye);
+  cameraLookAt = glm::vec3(lookAt);
+  cameraUp = glm::vec3(up);
+
+  BuildView();
+
+  isChanged = true;
 }
 
 void Camera::OnScroll(GdkScrollDirection dir) {
