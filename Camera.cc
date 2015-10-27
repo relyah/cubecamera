@@ -94,6 +94,10 @@ void Camera::Shutdown() {
   glDeleteBuffers(1,&vboPoints);
 }
 
+void Camera::Update(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up) {
+  logger->info("camera updating view...");
+}
+
 void Camera::OnScroll(GdkScrollDirection dir) {
   if (dir==GDK_SCROLL_UP) {
     zoomDelta += 0.1f;
@@ -185,8 +189,6 @@ void Camera::Reset() {
   BuildView();
 
   BuildPerspective();
-
-
 
   isChanged = true;
 }

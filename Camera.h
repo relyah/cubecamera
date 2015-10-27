@@ -39,6 +39,8 @@ public:
   virtual int GetScreenHeight();
   virtual glm::vec3 GetPosition();
 
+  virtual void Update(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up);
+
 private:
   std::stringstream sstm;
   log4cpp::Category* logger;

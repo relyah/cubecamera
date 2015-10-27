@@ -26,3 +26,4 @@ glm::mat4 AbstractCamera::GetView() {
 glm::mat4 AbstractCamera::GetProjection() {
   return projection;
 }
+
