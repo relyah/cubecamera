@@ -64,6 +64,402 @@
             <property name="column-spacing">1</property>
             <property name="expand">1</property>
 
+
+
+            <child> <!-- grdSidebar -->
+              <object class="GtkGrid" id="grdSidebar">
+                <property name="name">grdSidebar</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="row-spacing">10</property>
+                <property name="column-spacing">10</property>
+
+                <child> <!-- btnEye -->
+                  <object class="GtkButton" id="btnEye">
+                    <property name="label" translatable="yes">Eye</property>
+                    <property name="name">btnEye</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="onRvlEye" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child> <!-- btnEye -->
+
+                <child> <!-- rvlEye -->
+                  <object class="GtkRevealer" id="rvlEye">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="transition_type">GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN</property>
+
+                    <child> <!-- grdEye -->
+                      <object class="GtkGrid" id="grdEye">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+
+                        <child> <!-- bxEyeX -->
+                          <object class="GtkBox" id="bxEyeX">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblEyeX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">X:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblEyeX -->
+
+                            <child>
+                              <object class="GtkScale" id="sclEyeX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adEyeX</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclEyeX -->
+
+                          </object> <!-- bxEye -->
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+
+                        </child> <!-- bxEyeX -->
+
+                        <child> <!-- bxEyeY -->
+                          <object class="GtkBox" id="bxEyeY">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblEyeY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Y:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblEyeY -->
+
+                            <child>
+                              <object class="GtkScale" id="sclEyeY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adEyeY</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclEyeY -->
+
+                          </object> <!-- bxEyeY -->
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+
+                        </child> <!-- bxEyeY -->
+
+                        <child> <!-- bxEyeZ -->
+                          <object class="GtkBox" id="bxEyeZ">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblEyeZ">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Z:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblEyeZ -->
+
+                            <child>
+                              <object class="GtkScale" id="sclEyeZ">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adEyeZ</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclEyeZ -->
+
+                          </object> <!-- bxEyeZ -->
+
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+
+                        </child> <!-- bxEyeZ -->
+
+
+
+                      </object> <!-- grdEye -->
+
+                    </child> <!-- grdEye -->
+
+                  </object> <!-- rvlEye -->
+
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child> <!-- rvlEye -->
+
+                
+
+                <child> <!-- btnLook -->
+                  <object class="GtkButton" id="btnLook">
+                    <property name="label" translatable="yes">Look</property>
+                    <property name="name">btnLook</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="onRvlLook" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                  </packing>
+                </child> <!-- btnLook -->
+
+                <child> <!-- rvlLook -->
+                  <object class="GtkRevealer" id="rvlLook">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="transition_type">GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN</property>
+
+                    <child> <!-- grdLook -->
+                      <object class="GtkGrid" id="grdLook">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+
+                        <child> <!-- bxLookX -->
+                          <object class="GtkBox" id="bxLookX">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblLookX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">X:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblLookX -->
+
+                            <child>
+                              <object class="GtkScale" id="sclLookX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adLookX</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclLookX -->
+
+                          </object> <!-- bxLook -->
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+
+                        </child> <!-- bxLookX -->
+
+                        <child> <!-- bxLookY -->
+                          <object class="GtkBox" id="bxLookY">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblLookY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Y:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblLookY -->
+
+                            <child>
+                              <object class="GtkScale" id="sclLookY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adLookY</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclLookY -->
+
+                          </object> <!-- bxLookY -->
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+
+                        </child> <!-- bxLookY -->
+
+                        <child> <!-- bxLookZ -->
+                          <object class="GtkBox" id="bxLookZ">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblLookZ">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Z:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblLookZ -->
+
+                            <child>
+                              <object class="GtkScale" id="sclLookZ">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adLookZ</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclLookZ -->
+
+                          </object> <!-- bxLookZ -->
+
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+
+                        </child> <!-- bxLookZ -->
+
+                      </object> <!-- grdEye -->
+
+                    </child> <!-- grdEye -->
+
+                  </object> <!-- rvlEye -->
+
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">3</property>
+                  </packing>
+                </child> <!-- rvlLook -->
+
+              </object>
+
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+
+            </child>
+
+
+
+
+
+
             <child>
               <object class="GtkGLArea" id="GLArea">
                 <signal name="create-context" handler="create_context" />
@@ -78,19 +474,9 @@
 
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-
-            </child>
-
-            <child>
-              <object class="GtkLabel" id="lblTest">
-                <property name="label">Test label here</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
                 <property name="top_attach">1</property>
               </packing>
+
             </child>
 
           </object>
