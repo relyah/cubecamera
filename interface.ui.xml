@@ -32,6 +32,22 @@
     <property name="value">-10</property>
   </object>
 
+    <object class="GtkAdjustment" id="adUpX">
+    <property name="upper">10</property>
+    <property name="lower">-10</property>
+    <property name="value">-10</property>
+  </object>
+  <object class="GtkAdjustment" id="adUpY">
+    <property name="upper">10</property>
+    <property name="lower">-10</property>
+    <property name="value">-10</property>
+  </object>
+  <object class="GtkAdjustment" id="adUpZ">
+    <property name="upper">10</property>
+    <property name="lower">-10</property>
+    <property name="value">-10</property>
+  </object>
+
   <object class="GtkUIManager" id="uimanager">
     <child>
       <object class="GtkActionGroup" id="aktionen">
@@ -162,6 +178,9 @@
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adEyeX</property>
                                 <property name="hexpand">1</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -210,6 +229,9 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adEyeY</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -258,6 +280,9 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adEyeZ</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -347,6 +372,9 @@
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adLookX</property>
                                 <property name="hexpand">1</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -395,6 +423,9 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adLookY</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -443,6 +474,9 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adLookZ</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -533,6 +567,9 @@
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adUpX</property>
                                 <property name="hexpand">1</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -581,6 +618,9 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adUpY</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -629,6 +669,9 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adUpZ</property>
+
+                                <signal name="value-changed" handler="onScl" />
+
                               </object>
                               <packing>
                                 <property name="expand">True</property>

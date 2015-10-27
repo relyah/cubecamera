@@ -17,11 +17,30 @@
 
 OpenGLApplication *app;
 log4cpp::Category* logger = Logger::GetLogger();
-GtkRevealer *rvlEye, *rvlLook;
+GtkWidget *window;
+GtkEventBox *evtBxGLArea;
+GtkBuilder *builder;
+GtkRevealer *rvlEye, *rvlLook, *rvlUp;
+GtkScale *sclEyeX, *sclEyeY, *sclEyeZ, *sclLookX, *sclLookY, *sclLookZ, *sclUpX, *sclUpY, *sclUpZ;
 
 static void on_window_closed (GtkWidget *widget, gpointer data)
 {
   gtk_main_quit ();
+}
+
+static void onScl (GtkRange *range, gpointer  user_data) {
+  double eyeX = gtk_range_get_value((GtkRange*)sclEyeX);
+  double eyeY = gtk_range_get_value((GtkRange*)sclEyeY);
+  double eyeZ = gtk_range_get_value((GtkRange*)sclEyeZ);
+
+  double lookX = gtk_range_get_value((GtkRange*)sclLookX);
+  double lookY = gtk_range_get_value((GtkRange*)sclLookY);
+  double lookZ = gtk_range_get_value((GtkRange*)sclLookZ);
+
+  double upX = gtk_range_get_value((GtkRange*)sclUpX);
+  double upY = gtk_range_get_value((GtkRange*)sclUpY);
+  double upZ = gtk_range_get_value((GtkRange*)sclUpZ);
+
 }
 
 static void onRvlEye (GtkWidget *w, gpointer d)
@@ -34,6 +53,12 @@ static void onRvlLook (GtkWidget *w, gpointer d)
 {
   gboolean revealed = gtk_revealer_get_child_revealed (rvlLook);
   gtk_revealer_set_reveal_child (rvlLook, !revealed);
+}
+
+static void onRvlUp (GtkWidget *w, gpointer d)
+{
+  gboolean revealed = gtk_revealer_get_child_revealed (rvlUp);
+  gtk_revealer_set_reveal_child (rvlUp, !revealed);
 }
 
 static gboolean key_release_event(GtkGLArea *widget,
@@ -194,31 +219,64 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(button_release_event),user_data);
   } else if (g_strcmp0(handler_name, "onRvlEye")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(onRvlEye),user_data);
-  }else if (g_strcmp0(handler_name, "onRvlLook")==0) {
+  } else if (g_strcmp0(handler_name, "onRvlLook")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(onRvlLook),user_data);
-  }else {
+  } else if (g_strcmp0(handler_name, "onRvlUp")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(onRvlUp),user_data);
+  } else if (g_strcmp0(handler_name, "onScl")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(onScl),user_data);
+  } else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }
 }
 
+static void InitWindow() {
+  window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
+}
+
+static void InitGL() {
+  evtBxGLArea = (GtkEventBox *)gtk_builder_get_object(builder,"evtBxGLArea");
+}
+
+static void InitScales() {
+  sclEyeX = (GtkScale *)gtk_builder_get_object(builder,"sclEyeX");
+  sclEyeY = (GtkScale *)gtk_builder_get_object(builder,"sclEyeY");
+  sclEyeZ = (GtkScale *)gtk_builder_get_object(builder,"sclEyeZ");
+
+  sclLookX = (GtkScale *)gtk_builder_get_object(builder,"sclLookX");
+  sclLookY = (GtkScale *)gtk_builder_get_object(builder,"sclLookY");
+  sclLookZ = (GtkScale *)gtk_builder_get_object(builder,"sclLookZ");
+
+  sclUpX = (GtkScale *)gtk_builder_get_object(builder,"sclUpX");
+  sclUpY = (GtkScale *)gtk_builder_get_object(builder,"sclUpY");
+  sclUpZ = (GtkScale *)gtk_builder_get_object(builder,"sclUpZ");
+}
+
+static void InitRevealers() {
+  rvlEye = (GtkRevealer *)gtk_builder_get_object (builder, "rvlEye");
+  rvlLook = (GtkRevealer *)gtk_builder_get_object (builder, "rvlLook");
+  rvlUp = (GtkRevealer *)gtk_builder_get_object (builder, "rvlUp");
+}
+
+static void InitWidgets() {
+  InitWindow();
+  InitGL();
+  InitScales();
+  InitRevealers();
+}
 
 int main (int argc, char *argv[])
 {
 
-  GtkBuilder *builder;
   GError *errors = NULL;
-  GtkWidget *window;
-  GtkEventBox *evtBxGLArea;
+
 
   gtk_init (&argc, &argv);
   builder = gtk_builder_new ();
   gtk_builder_add_from_file (builder, "interface.ui.xml", &errors);
   //gtk_builder_connect_signals (builder, builder);
   gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
-  window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
-  rvlEye = (GtkRevealer *)gtk_builder_get_object (builder, "rvlEye");
-  rvlLook = (GtkRevealer *)gtk_builder_get_object (builder, "rvlLook");
-  evtBxGLArea = (GtkEventBox *)gtk_builder_get_object(builder,"evtBxGLArea");
+  InitWidgets();
   gtk_widget_add_events(GTK_WIDGET(evtBxGLArea), GDK_SCROLL_MASK);
   gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
   gtk_widget_show_all (window);
