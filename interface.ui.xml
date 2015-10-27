@@ -27,12 +27,12 @@
       </toolbar>
     </ui>
   </object>
-  
+
   <object class="GtkWindow" id="CubeVisor" >
     <property name="default_width">640</property>
     <property name="default_height">480</property>
     <signal name="destroy" handler="gtk_main_quit"/>
-        <signal name="key-release-event" handler="key_release_event" />
+    <signal name="key-release-event" handler="key_release_event" />
     <signal name="scroll-event" handler="scroll_event" />
     <signal name="button-press-event" handler="button_press_event" />
     <signal name="button-release-event" handler="button_release_event" />
@@ -54,16 +54,49 @@
             <property name="fill">FALSE</property>
           </packing>
         </child>
+
         <child>
-          <object class="GtkGLArea" id="GLArea">
-            <signal name="create-context" handler="create_context" />
-            <signal name="render" handler="render" />
-            <signal name="resize" handler="resize" />
-            <signal name="realize" handler="realize" />
-            <signal name="unrealize" handler="unrealize" />
+          <object class="GtkGrid" id="grdMain">
+            <property name="name">grdMain</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="row-spacing">1</property>
+            <property name="column-spacing">1</property>
+            <property name="expand">1</property>
+
+            <child>
+              <object class="GtkGLArea" id="GLArea">
+                <signal name="create-context" handler="create_context" />
+                <signal name="render" handler="render" />
+                <signal name="resize" handler="resize" />
+                <signal name="realize" handler="realize" />
+                <signal name="unrealize" handler="unrealize" />
+                <property name="expand">1</property>
+                <property name="height-request">480</property>
+                <property name="width-request">640</property>
+              </object>
+
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="lblTest">
+                <property name="label">Test label here</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
 
           </object>
+
         </child>
+
         <child>
           <object class="GtkLabel" id="StatusLabel">
             <property name="label">Cube GTK</property>
@@ -77,4 +110,3 @@
     </child>
   </object>
 </interface>
-
