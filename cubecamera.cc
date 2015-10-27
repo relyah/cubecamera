@@ -36,7 +36,7 @@ static void onRvlLook (GtkWidget *w, gpointer d)
   gtk_revealer_set_reveal_child (rvlLook, !revealed);
 }
 
-static gboolean key_release_event(GtkWidget *widget,
+static gboolean key_release_event(GtkGLArea *widget,
                                   GdkEvent  *event,
                                   gpointer   user_data) {
 
@@ -47,22 +47,22 @@ static gboolean key_release_event(GtkWidget *widget,
 
   app->OnKeyReleased(((GdkEventKey*)event)->keyval);
 
-  gtk_widget_queue_draw(widget);
+  gtk_widget_queue_draw((GtkWidget*)widget);
 
   return true;
 }
 
-static void scroll_event(GtkWindow *widget,
+static void scroll_event(GtkWidget *widget,
                          GdkEvent  *event,
                          gpointer   user_data) {
-  //logger->info("got scroll.");
+  logger->info("got scroll.");
   //printf("got scroll.");
   app->OnScroll(((GdkEventScroll*)event)->direction);
 
   gtk_widget_queue_draw((GtkWidget*)widget);
 }
 
-static void motion_notify_event(GtkWindow *widget,
+static void motion_notify_event(GtkWidget *widget,
                                 GdkEvent  *event,
                                 gpointer   user_data) {
   //logger->info("got motion.");
@@ -89,19 +89,19 @@ static void button_press_event(GtkGLArea *widget,
                                GdkEvent  *event,
                                gpointer   user_data) {
 
-  logger->info("c pressed");
+  //logger->info("c pressed");
   GdkEventButton* evtBtn = (GdkEventButton*)event;
-  std::cout << "btn x: "<<evtBtn->x <<", y: " << evtBtn->y << std::endl;
+  //std::cout << "btn x: "<<evtBtn->x <<", y: " << evtBtn->y << std::endl;
   app->OnButtonPressed(evtBtn->button, evtBtn->x, evtBtn->y);
 
   gtk_widget_queue_draw((GtkWidget*)widget);
 }
 
-static void button_release_event(GtkWindow *widget,
+static void button_release_event(GtkGLArea  *widget,
                                  GdkEvent  *event,
                                  gpointer   user_data) {
 
-  logger->info("c released");
+  //logger->info("c released");
   GdkEventButton* evtBtn = (GdkEventButton*)event;
   app->OnButtonReleased(evtBtn->button, evtBtn->x, evtBtn->y);
 
@@ -208,6 +208,7 @@ int main (int argc, char *argv[])
   GtkBuilder *builder;
   GError *errors = NULL;
   GtkWidget *window;
+  GtkEventBox *evtBxGLArea;
 
   gtk_init (&argc, &argv);
   builder = gtk_builder_new ();
@@ -217,6 +218,8 @@ int main (int argc, char *argv[])
   window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
   rvlEye = (GtkRevealer *)gtk_builder_get_object (builder, "rvlEye");
   rvlLook = (GtkRevealer *)gtk_builder_get_object (builder, "rvlLook");
+  evtBxGLArea = (GtkEventBox *)gtk_builder_get_object(builder,"evtBxGLArea");
+  gtk_widget_add_events(GTK_WIDGET(evtBxGLArea), GDK_SCROLL_MASK);
   gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
   gtk_widget_show_all (window);
   gtk_main ();

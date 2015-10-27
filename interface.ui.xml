@@ -61,14 +61,12 @@
   </object>
 
   <object class="GtkWindow" id="CubeVisor" >
+
     <property name="default_width">640</property>
     <property name="default_height">480</property>
+
     <signal name="destroy" handler="gtk_main_quit"/>
-    <signal name="key-release-event" handler="key_release_event" />
-    <signal name="scroll-event" handler="scroll_event" />
-    
-    <signal name="button-release-event" handler="button_release_event" />
-    <signal name="motion-notify-event" handler="motion_notify_event" />
+
     <child>
       <object class="GtkVBox" id="vbox-layout">
         <property name="homogeneous">FALSE</property>
@@ -96,8 +94,6 @@
             <property name="column-spacing">1</property>
             <property name="expand">1</property>
 
-
-
             <child> <!-- grdSidebar -->
               <object class="GtkGrid" id="grdSidebar">
                 <property name="name">grdSidebar</property>
@@ -105,6 +101,7 @@
                 <property name="can_focus">False</property>
                 <property name="row-spacing">10</property>
                 <property name="column-spacing">10</property>
+
 
                 <child> <!-- btnEye -->
                   <object class="GtkButton" id="btnEye">
@@ -278,8 +275,6 @@
 
                         </child> <!-- bxEyeZ -->
 
-
-
                       </object> <!-- grdEye -->
 
                     </child> <!-- grdEye -->
@@ -292,7 +287,6 @@
                   </packing>
                 </child> <!-- rvlEye -->
 
-                
 
                 <child> <!-- btnLook -->
                   <object class="GtkButton" id="btnLook">
@@ -466,17 +460,206 @@
 
                         </child> <!-- bxLookZ -->
 
-                      </object> <!-- grdEye -->
+                      </object> <!-- grdLook -->
 
-                    </child> <!-- grdEye -->
+                    </child> <!-- grdLook -->
 
-                  </object> <!-- rvlEye -->
+                  </object> <!-- rvlLook -->
 
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">3</property>
                   </packing>
                 </child> <!-- rvlLook -->
+
+
+                <child> <!-- btnUp -->
+                  <object class="GtkButton" id="btnUp">
+                    <property name="label" translatable="yes">Up</property>
+                    <property name="name">btnUp</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="onRvlUp" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">4</property>
+                  </packing>
+                </child> <!-- btnUp -->
+
+                <child> <!-- rvlUp -->
+
+                  <object class="GtkRevealer" id="rvlUp">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="transition_type">GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN</property>
+
+                    <child> <!-- grdUp -->
+                      <object class="GtkGrid" id="grdUp">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+
+                        <child> <!-- bxUpX -->
+                          <object class="GtkBox" id="bxUpX">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblUpX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">X:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblUpX -->
+
+                            <child>
+                              <object class="GtkScale" id="sclUpX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adUpX</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclUpX -->
+
+                          </object> <!-- bxUp -->
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+
+                        </child> <!-- bxUpX -->
+
+                        <child> <!-- bxUpY -->
+                          <object class="GtkBox" id="bxUpY">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblUpY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Y:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblUpY -->
+
+                            <child>
+                              <object class="GtkScale" id="sclUpY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adUpY</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclUpY -->
+
+                          </object> <!-- bxUpY -->
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+
+                        </child> <!-- bxUpY -->
+
+                        <child> <!-- bxUpZ -->
+                          <object class="GtkBox" id="bxUpZ">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+
+                            <child>
+                              <object class="GtkLabel" id="lblUpZ">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Z:</property>
+                                <property name="xalign">0</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child> <!-- lblUpZ -->
+
+                            <child>
+                              <object class="GtkScale" id="sclUpZ">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">left</property>
+                                <property name="width-request">200</property>
+                                <property name="adjustment">adUpZ</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child> <!-- sclUpZ -->
+
+                          </object> <!-- bxUpZ -->
+
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+
+                        </child> <!-- bxUpZ -->
+
+
+
+                      </object> <!-- grdUp -->
+
+                    </child> <!-- grdUp -->
+
+                  </object> <!-- rvlUp -->
+
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">5</property>
+                  </packing>
+
+                </child> <!-- rvlUp -->
 
               </object>
 
@@ -485,23 +668,21 @@
                 <property name="top_attach">0</property>
               </packing>
 
-            </child>
+            </child> <!-- grdSidebar -->
 
+            <child> <!-- evtBxGLArea -->
 
-
-
-
-            <child>
-
-
-              <object class="GtkEventBox" id="eventbox1">
+              <object class="GtkEventBox" id="evtBxGLArea">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+
+                <signal name="key-release-event" handler="key_release_event" />
+                <signal name="scroll-event" handler="scroll_event" />
+                <signal name="motion-notify-event" handler="motion_notify_event" />
                 <signal name="button-press-event" handler="button_press_event" swapped="no"/>
-                
+                <signal name="button-release-event" handler="button_release_event" />
 
-
-                <child>
+                <child> <!-- GtkGLArea -->
                   <object class="GtkGLArea" id="GLArea">
                     <signal name="create-context" handler="create_context" />
                     <signal name="render" handler="render" />
@@ -512,17 +693,15 @@
                     <property name="height-request">480</property>
                     <property name="width-request">640</property>
                   </object>
-
-
-
-                </child>
+                </child>  <!-- GtkGLArea -->
 
               </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="top_attach">0</property>
               </packing>
-            </child>
+
+            </child> <!-- evtBxGLArea -->
 
           </object>
 
@@ -537,6 +716,7 @@
             <property name="fill">FALSE</property>
           </packing>
         </child>
+
       </object>
     </child>
   </object>
