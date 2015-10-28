@@ -66,6 +66,20 @@ static void Reset() {
   UpdateCameraVectors();
 }
 
+static void SetControlsFromCameraVectors() {
+  gtk_range_set_value((GtkRange *)sclEyeX, eye.x);
+  gtk_range_set_value((GtkRange *)sclEyeY, eye.y);
+  gtk_range_set_value((GtkRange *)sclEyeZ, eye.z);
+
+  gtk_range_set_value((GtkRange *)sclLookAtX, lookAt.x);
+  gtk_range_set_value((GtkRange *)sclLookAtY, lookAt.y);
+  gtk_range_set_value((GtkRange *)sclLookAtZ, lookAt.z);
+
+  gtk_range_set_value((GtkRange *)sclUpX, up.x);
+  gtk_range_set_value((GtkRange *)sclUpY, up.y);
+  gtk_range_set_value((GtkRange *)sclUpZ, up.z);
+}
+
 static void UpdateCamera() {
   UpdateCameraVectors();
 
@@ -142,6 +156,8 @@ static void motion_notify_event(GtkWidget *widget,
   if (((evtMotion->state) & GDK_BUTTON1_MASK)> 1) {
     logger->info("got motion.");
     app->OnDrag(evtMotion->x,evtMotion->y);
+    app->GetCameraVectors(eye,lookAt,up);
+    SetControlsFromCameraVectors();
     gtk_widget_queue_draw((GtkWidget*)widget);
   }
 }

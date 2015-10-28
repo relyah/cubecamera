@@ -69,6 +69,25 @@ void OpenGLApplication::UpdateCamera(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec
   camera->Update(eye,lookAt,up);
 }
 
+void OpenGLApplication::GetCameraVectors(glm::vec3 &eye,glm::vec3 &lookAt,glm::vec3 &up) {
+
+  glm::vec3 cEye = camera->GetEye();
+  glm::vec3 cLookAt = camera->GetLookAt();
+  glm::vec3 cUp = camera->GetUp();
+
+  eye.x = cEye.x;
+  eye.y = cEye.y;
+  eye.z = cEye.z;
+
+  lookAt.x = cLookAt.x;
+  lookAt.y = cLookAt.y;
+  lookAt.z = cLookAt.z;
+
+  up.x = cUp.x;
+  up.y = cUp.y;
+  up.z = cUp.z;
+}
+
 void OpenGLApplication::OnKeyReleased(int key) {
   inputManager->OnKeyReleased(key);
 }

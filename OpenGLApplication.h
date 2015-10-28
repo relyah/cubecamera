@@ -30,6 +30,7 @@ public:
 
   void Reset();
   void UpdateCamera(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up);
+  void GetCameraVectors(glm::vec3 &eye,glm::vec3 &lookAt,glm::vec3 &up);
 
 private:
   int screenWidth;

@@ -42,30 +42,34 @@ public:
   void Reset();
   virtual void Update(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up);
 
-private:
-  std::stringstream sstm;
-  log4cpp::Category* logger;
-  GLuint vboPoints;
-  int screenWidth;
-  int screenHeight;
-  GLint uniform_m;
-  GLint uniform_v;
-  GLint uniform_p;
-  bool isCameraMoving;
-  glm::vec3 cameraPosition, cameraOrigPos;
-  glm::vec3 cameraLookAt;
-  glm::vec3 cameraUp;
-  float zoomDelta;
-  glm::vec2 cursor;
-  glm::vec2 cameraRotate;
+  glm::vec3 GetEye() {return cameraPosition;}
+  glm::vec3 GetLookAt() {return cameraLookAt;}
+  glm::vec3 GetUp() {return cameraUp;}
 
-  virtual void Gen();
-  void ZoomCamera();
-  void BuildView();
-  void BuildPerspective();
-  double cotan(double i);
-  void RenderRay();
-};
+  private:
+    std::stringstream sstm;
+    log4cpp::Category* logger;
+    GLuint vboPoints;
+    int screenWidth;
+    int screenHeight;
+    GLint uniform_m;
+    GLint uniform_v;
+    GLint uniform_p;
+    bool isCameraMoving;
+    glm::vec3 cameraPosition, cameraOrigPos;
+    glm::vec3 cameraLookAt;
+    glm::vec3 cameraUp;
+    float zoomDelta;
+    glm::vec2 cursor;
+    glm::vec2 cameraRotate;
+
+    virtual void Gen();
+    void ZoomCamera();
+    void BuildView();
+    void BuildPerspective();
+    double cotan(double i);
+    void RenderRay();
+  };
 
 #endif
 

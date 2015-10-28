@@ -26,7 +26,7 @@ private:
   GLint uniform_m;
   GLint uniform_v;
   GLint uniform_p;
-  int numPoints;
+  int numPoints, numIndices;
 
   void FillVBO();
 
