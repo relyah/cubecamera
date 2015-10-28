@@ -91,7 +91,8 @@
     <property name="default_height">480</property>
 
     <signal name="destroy" handler="gtk_main_quit"/>
-
+    <signal name="key-release-event" handler="key_release_event" />
+    
     <child>
       <object class="GtkVBox" id="vbox-layout">
         <property name="homogeneous">FALSE</property>
