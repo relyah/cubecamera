@@ -39,6 +39,7 @@ public:
   virtual int GetScreenHeight();
   virtual glm::vec3 GetPosition();
 
+  void Reset();
   virtual void Update(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up);
 
 private:
@@ -60,7 +61,6 @@ private:
 
   virtual void Gen();
   void ZoomCamera();
-  void Reset();
   void BuildView();
   void BuildPerspective();
   double cotan(double i);

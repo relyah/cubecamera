@@ -74,4 +74,6 @@ void SquareModel::Reset() {
     
   xinc = 0.1f; yinc=0.1f;
   xpos = 0.0f; ypos=0.0f;
+
+  isChanged = true;
 }

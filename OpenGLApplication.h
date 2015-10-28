@@ -28,6 +28,7 @@ public:
   void OnButtonPressed(int button, double x, double y);
   void OnButtonReleased(int button, double x, double y);
 
+  void Reset();
   void UpdateCamera(glm::vec3 &eye, glm::vec3 &lookAt, glm::vec3 &up);
 
 private:

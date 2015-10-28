@@ -50,6 +50,11 @@ void OpenGLApplication::Init() {
   program->Init();
 }
 
+void OpenGLApplication::Reset() {
+  model->Reset();
+  camera->Reset();
+}
+
 void OpenGLApplication::Render() {
   //logger->info("Render OpenGLApplication...");
 

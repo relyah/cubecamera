@@ -19,7 +19,8 @@ public:
   virtual glm::mat4 GetProjection();
 
   bool IsChanged();
-
+  void Reset();
+  
   virtual void OnKeyReleased(int key);
 
 private:
@@ -34,7 +35,6 @@ private:
   float xinc, yinc;
   float xpos, ypos;
 
-  void Reset();
 };
 
 #endif

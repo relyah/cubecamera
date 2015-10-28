@@ -22,13 +22,16 @@ GtkEventBox *evtBxGLArea;
 GtkBuilder *builder;
 GtkRevealer *rvlEye, *rvlLookAt, *rvlUp;
 GtkScale *sclEyeX, *sclEyeY, *sclEyeZ, *sclLookAtX, *sclLookAtY, *sclLookAtZ, *sclUpX, *sclUpY, *sclUpZ;
+glm::vec3 eye;
+glm::vec3 lookAt;
+glm::vec3 up;
 
 static void on_window_closed (GtkWidget *widget, gpointer data)
 {
   gtk_main_quit ();
 }
 
-static void onScl (GtkRange *range, gpointer  user_data) {
+static void UpdateCameraVectors() {
   double eyeX = gtk_range_get_value((GtkRange*)sclEyeX);
   double eyeY = gtk_range_get_value((GtkRange*)sclEyeY);
   double eyeZ = gtk_range_get_value((GtkRange*)sclEyeZ);
@@ -41,13 +44,39 @@ static void onScl (GtkRange *range, gpointer  user_data) {
   double upY = gtk_range_get_value((GtkRange*)sclUpY);
   double upZ = gtk_range_get_value((GtkRange*)sclUpZ);
 
-  glm::vec3 eye = glm::vec3(eyeX,eyeY,eyeZ);
-  glm::vec3 lookAt = glm::vec3(lookAtX,lookAtY,lookAtZ);
-  glm::vec3 up = glm::vec3(upX,upY,upZ);
+  eye = glm::vec3(eyeX,eyeY,eyeZ);
+  lookAt = glm::vec3(lookAtX,lookAtY,lookAtZ);
+  up = glm::vec3(upX,upY,upZ);
+}
 
+static void Reset() {
+
+  gtk_range_set_value((GtkRange *)sclEyeX, 0.0);
+  gtk_range_set_value((GtkRange *)sclEyeY, 0.0);
+  gtk_range_set_value((GtkRange *)sclEyeZ, 5.0);
+
+  gtk_range_set_value((GtkRange *)sclLookAtX, 0.0);
+  gtk_range_set_value((GtkRange *)sclLookAtY, 0.0);
+  gtk_range_set_value((GtkRange *)sclLookAtZ, 0.0);
+
+  gtk_range_set_value((GtkRange *)sclUpX, 0.0);
+  gtk_range_set_value((GtkRange *)sclUpY, 1.0);
+  gtk_range_set_value((GtkRange *)sclUpZ, 0.0);
+
+  UpdateCameraVectors();
+}
+
+static void UpdateCamera() {
+  UpdateCameraVectors();
+
+  std::cout << "Eye x: " <<  eye.x << ", y: " << eye.y << ", z: " << eye.z << std::endl;
   app->UpdateCamera(eye,lookAt,up);
 
   gtk_widget_queue_draw((GtkWidget*)evtBxGLArea);
+}
+
+static void onScl (GtkRange *range, gpointer  user_data) {
+  UpdateCamera();
 }
 
 static void onRvlEye (GtkWidget *w, gpointer d)
@@ -186,6 +215,9 @@ static gboolean realize(GtkGLArea *area, GdkGLContext *context)
   app = new OpenGLApplication(width,height);
   app->Init();
 
+  Reset();
+  UpdateCamera();
+
   return true;
 }
 
@@ -193,6 +225,12 @@ static void unrealize (GtkWidget *widget,
                        gpointer   user_data) {
   app->Shutdown();
   delete app;
+}
+
+static void onReset (GtkToolButton *toolbutton, gpointer user_data) {
+  Reset();
+  app->Reset();
+  gtk_widget_queue_draw((GtkWidget*)evtBxGLArea);
 }
 
 
@@ -232,6 +270,8 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(onRvlUp),user_data);
   } else if (g_strcmp0(handler_name, "onScl")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(onScl),user_data);
+  } else if (g_strcmp0(handler_name, "onReset")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(onReset),user_data);
   } else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }

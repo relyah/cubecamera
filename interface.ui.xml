@@ -9,44 +9,52 @@
   <object class="GtkAdjustment" id="adEyeY">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">0</property>
+    <property name="step_increment">0.5</property>
   </object>
   <object class="GtkAdjustment" id="adEyeZ">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">10</property>
+    <property name="step_increment">0.5</property>
   </object>
 
   <object class="GtkAdjustment" id="adLookAtX">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">0</property>
+    <property name="step_increment">0.5</property>
   </object>
   <object class="GtkAdjustment" id="adLookAtY">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">0</property>
+    <property name="step_increment">0.5</property>
   </object>
   <object class="GtkAdjustment" id="adLookAtZ">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">1</property>
+    <property name="step_increment">0.5</property>
   </object>
 
   <object class="GtkAdjustment" id="adUpX">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">0</property>
+    <property name="step_increment">0.5</property>
   </object>
   <object class="GtkAdjustment" id="adUpY">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">1.0</property>
+    <property name="step_increment">0.5</property>
   </object>
   <object class="GtkAdjustment" id="adUpZ">
     <property name="upper">10</property>
     <property name="lower">-10</property>
-    <property name="value">-10</property>
+    <property name="value">0</property>
+    <property name="step_increment">0.5</property>
   </object>
 
   <object class="GtkUIManager" id="uimanager">
@@ -95,7 +103,18 @@
           </packing>
         </child>
         <child>
-          <object class="GtkToolbar" id="toolbar1" constructor="uimanager" />
+          <object class="GtkToolbar" id="toolbar1" constructor="uimanager">
+          <child>
+            <object class="GtkToolButton">
+              <property name="visible">1</property>
+              <property name="label" translatable="yes">New</property>
+              <property name="tooltip-text" translatable="yes">Create a new file</property>
+              <property name="icon-name">reload</property>
+
+              <signal name="clicked" handler="onReset" />
+            </object>
+          </child>
+          </object>
           <packing>
             <property name="expand">FALSE</property>
             <property name="fill">FALSE</property>
@@ -169,7 +188,7 @@
                               </packing>
                             </child> <!-- lblEyeX -->
 
-                            <child>
+                            <child> <!-- spnBtn -->
                               <object class="GtkSpinButton" id="spnBtnEyeX">
                                 <property name="visible">1</property>
                                 <property name="halign">start</property>
@@ -182,8 +201,7 @@
                               <packing>
                                 <property name="position">1</property>
                               </packing>
-                            </child>
-
+                            </child>  <!-- spnBtn -->
 
                             <child>
                               <object class="GtkScale" id="sclEyeX">
@@ -238,6 +256,21 @@
                               </packing>
                             </child> <!-- lblEyeY -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnEyeY">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adEyeY</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclEyeY">
                                 <property name="visible">True</property>
@@ -247,6 +280,7 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adEyeY</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -254,7 +288,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclEyeY -->
 
@@ -289,6 +323,21 @@
                               </packing>
                             </child> <!-- lblEyeZ -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnEyeZ">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adEyeZ</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclEyeZ">
                                 <property name="visible">True</property>
@@ -298,6 +347,7 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adEyeZ</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -305,7 +355,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclEyeZ -->
 
@@ -380,6 +430,21 @@
                               </packing>
                             </child> <!-- lblLookAtX -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnLookX">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adLookAtX</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclLookAtX">
                                 <property name="visible">True</property>
@@ -390,6 +455,7 @@
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adLookAtX</property>
                                 <property name="hexpand">1</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -397,7 +463,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclLookAtX -->
 
@@ -432,6 +498,21 @@
                               </packing>
                             </child> <!-- lblLookAtY -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnLookY">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adLookAtY</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclLookAtY">
                                 <property name="visible">True</property>
@@ -441,6 +522,7 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adLookAtY</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -448,7 +530,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclLookAtY -->
 
@@ -483,6 +565,21 @@
                               </packing>
                             </child> <!-- lblLookAtZ -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnLookZ">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adLookAtZ</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclLookAtZ">
                                 <property name="visible">True</property>
@@ -492,6 +589,7 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adLookAtZ</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -499,7 +597,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclLookAtZ -->
 
@@ -575,6 +673,21 @@
                               </packing>
                             </child> <!-- lblUpX -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnUpX">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adUpX</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclUpX">
                                 <property name="visible">True</property>
@@ -585,6 +698,7 @@
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adUpX</property>
                                 <property name="hexpand">1</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -592,7 +706,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclUpX -->
 
@@ -627,6 +741,21 @@
                               </packing>
                             </child> <!-- lblUpY -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnUpY">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adUpY</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclUpY">
                                 <property name="visible">True</property>
@@ -636,6 +765,7 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adUpY</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -643,7 +773,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclUpY -->
 
@@ -678,6 +808,21 @@
                               </packing>
                             </child> <!-- lblUpZ -->
 
+                            <child> <!-- spnBtn -->
+                              <object class="GtkSpinButton" id="spnBtnUpZ">
+                                <property name="visible">1</property>
+                                <property name="halign">start</property>
+                                <property name="width_chars">5</property>
+                                <property name="adjustment">adUpZ</property>
+                                <property name="climb_rate">1</property>
+                                <property name="digits">2</property>
+                                <property name="numeric">1</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>  <!-- spnBtn -->
+
                             <child>
                               <object class="GtkScale" id="sclUpZ">
                                 <property name="visible">True</property>
@@ -687,6 +832,7 @@
                                 <property name="value_pos">left</property>
                                 <property name="width-request">200</property>
                                 <property name="adjustment">adUpZ</property>
+                                <property name="draw-value">0</property>
 
                                 <signal name="value-changed" handler="onScl" />
 
@@ -694,7 +840,7 @@
                               <packing>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child> <!-- sclUpZ -->
 
