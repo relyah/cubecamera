@@ -1,9 +1,10 @@
 #include "Square.h"
 
-Square::Square(IOpenGLProgram* program, IModel* model) : AbstractObject(program,model) {
+Square::Square(IOpenGLProgram* program, IModel* model, bool isRenderToFBO) :
+  AbstractObject(program,model,isRenderToFBO) {
   //logger = Logger::GetLogger();
 
-}
+  }
 
 Square::~Square() {
   model=0;
@@ -27,6 +28,7 @@ void Square::Init() {
 
 
   FillVBO();
+  InitFBO();
   Unbind();
 }
 
@@ -85,8 +87,39 @@ void Square::FillVBO() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+void Square::InitFBO() {
+  if  (!isRenderToFBO) {return;}
+
+  glGenFramebuffers(1, &fbo);
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+  glGenTextures(1, &color_texture);
+  glBindTexture(GL_TEXTURE_2D, color_texture);
+  glTexStorage2D(GL_TEXTURE_2D, 9, GL_RGBA8, 512, 512);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  //glGenTextures(1, &depth_texture);
+  //glBindTexture(GL_TEXTURE_2D, depth_texture);
+  //glTexStorage2D(GL_TEXTURE_2D, 9, GL_DEPTH_COMPONENT32F, 512, 512);
+
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_texture, 0);
+  //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depth_texture, 0);
+
+  static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
+  glDrawBuffers(1, draw_buffers);
+
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+}
+
 void Square::Render() {
   Bind();
+
+  if (isRenderToFBO) {
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+  }
 
   //logger->info("Square updating...");
   glm::mat4 modelMatrix = model->GetModel();
@@ -106,11 +139,24 @@ void Square::Render() {
   glDrawElements(GL_TRIANGLES,numIndices,GL_UNSIGNED_SHORT,0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+  if (isRenderToFBO) {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  }
+
   Unbind();
 }
 
 void Square::Shutdown() {
   AbstractObject::Shutdown();
+
+  if (isRenderToFBO) {
+    glDeleteFramebuffers(1, &fbo);
+    glDeleteTextures(1, &color_texture);
+  }
+
+  glDeleteBuffers(1, &vboPoints);
+  glDeleteBuffers(1, &iboPoints);
+
   program=0;
   model=0;
 }

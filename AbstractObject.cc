@@ -1,6 +1,9 @@
 #include "AbstractObject.h"
 
-AbstractObject::AbstractObject(IOpenGLProgram* program, IModel *model) : program(program), model(model)  {
+AbstractObject::AbstractObject(IOpenGLProgram* program, IModel *model, bool isRenderToFBO) :
+  program(program),
+  model(model),
+  isRenderToFBO(isRenderToFBO){
 
 }
 

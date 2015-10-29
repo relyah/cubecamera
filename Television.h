@@ -1,5 +1,5 @@
-#ifndef _SQUARE_H_
-#define _SQUARE_H_
+#ifndef _TELEVISION_H_
+#define _TELEVISION_H_
 
 #include "Logger.h"
 #include "DataStructures.h"
@@ -8,29 +8,30 @@
 #include "IOpenGLProgram.h"
 #include "IModel.h"
 
-class Square  : public AbstractObject {
+class Television : public AbstractObject {
 
 public:
-
-  Square(IOpenGLProgram* program, IModel* model, bool isRenderToFBO=false);
-  virtual ~Square();
+  Television(IOpenGLProgram *program, IModel *model, IObject *source);
+  ~Television();
 
   void Init();
   void Render();
   virtual void Shutdown();
 
 private:
+  IOpenGLProgram *program;
+  IModel *model;
+  IObject *source;
+
   GLuint vboPoints;
   GLuint iboPoints;
-  GLuint attribute_vp, attribute_vn, attribute_vc;
+  GLuint attribute_vp, attribute_vt;
   GLint uniform_m;
   GLint uniform_v;
   GLint uniform_p;
   int numPoints, numIndices;
 
   void FillVBO();
-  void InitFBO();
-
 };
 
 #endif

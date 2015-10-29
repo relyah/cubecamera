@@ -7,4 +7,9 @@ struct VertexStructure {
 	float colour[3];
 };
 
+struct TVStructure {
+  float coord3d[3];
+  float texcoord[2];
+};
+
 #endif
