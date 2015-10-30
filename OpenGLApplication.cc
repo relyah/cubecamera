@@ -13,7 +13,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   tvCamera = new CameraBasic(screenWidth, screenHeight);
   model = new SquareModel(camera,screenWidth, screenHeight);
   square = new Square(program, model, false);
-  television = new Television(program,tvCamera,square);
+  television = new Television(tvProgram,tvCamera,square);
   crossHairModel = new CrossHairModel();
   crossHair = new CrossHair(program,crossHairModel);
   crossHairLocal = new CrossHair(program,model);

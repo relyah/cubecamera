@@ -19,8 +19,6 @@ public:
   virtual void Shutdown();
 
 private:
-  IOpenGLProgram *program;
-  IModel *model;
   IObject *source;
 
   GLuint vboPoints;
