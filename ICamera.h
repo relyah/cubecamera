@@ -13,6 +13,10 @@ class ICamera : public IModel {
 public:
   virtual ~ICamera() {};
 
+  virtual void Init() = 0;
+  virtual void Render() = 0;
+  virtual void Shutdown() = 0;
+
   virtual int GetScreenWidth() = 0;
   virtual int GetScreenHeight() = 0;
   virtual glm::vec3 GetPosition() = 0;

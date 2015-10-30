@@ -1,6 +1,6 @@
 #include "OpenGLProgram.h"
 
-OpenGLProgram::OpenGLProgram() {
+OpenGLProgram::OpenGLProgram(string vsName, string fsName) : vsName(vsName), fsName(fsName) {
   logger->info("Starting OpenGLProgram...");
 
   objects = TObjects();
@@ -14,7 +14,7 @@ void OpenGLProgram::AddObject(IObject* object) {
   objects.push_back(object);
 }
 
-void OpenGLProgram::SetCamera(Camera* camera) {
+void OpenGLProgram::SetCamera(ICamera* camera) {
   this->camera = camera;
 }
 
@@ -93,7 +93,8 @@ void OpenGLProgram::ShutdownObjects() {
 }
 
 void OpenGLProgram::InitProgram() {
-  CreateProgram("cube.vs.glsl","cube.fs.glsl",vs,fs);
+
+  CreateProgram(vsName.c_str(), fsName.c_str(),vs,fs);//"cube.vs.glsl","cube.fs.glsl",vs,fs);
 
   sstm.str(std::string());
   sstm << "program: " << program << std::endl;

@@ -25,9 +25,9 @@ public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
   virtual ~Camera();
 
-  void Init();
-  void Render();
-  void Shutdown();
+  virtual void Init();
+  virtual void Render();
+  virtual void Shutdown();
 
   virtual void OnScroll(GdkScrollDirection dir);
   virtual void OnDrag(double x, double y);

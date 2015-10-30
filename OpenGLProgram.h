@@ -7,27 +7,34 @@
 #include "IObject.h"
 #include "Camera.h"
 
-typedef std::vector<IObject*> TObjects;
+using namespace std;
 
-class OpenGLProgram : public AbstractOpenGLProgram {
+typedef vector<IObject*> TObjects;
+
+class OpenGLProgram : public AbstractOpenGLProgram, public IObject {
 
 public:
-  OpenGLProgram();
+  OpenGLProgram(string vsName, string fsName);
   ~OpenGLProgram();
 
   void AddObject(IObject* object);
 
-  void SetCamera(Camera* camera);
+  void SetCamera(ICamera *camera);
 
   void Init();
   void Render();
   void Shutdown();
 
+  virtual void Bind() {}
+  virtual void Unbind() {}
+
+  virtual GLuint GetColorTexture() {return 0;}
+
 private:
-  //GLuint vao, vbo;
+  string vsName, fsName;
   GLuint vs, fs;
   TObjects objects;
-  Camera* camera;
+  ICamera *camera;
 
   void InitProgram();
 

@@ -12,7 +12,7 @@ Television::~Television() {
 
 void Television::Init() {
 
-  source->Bind();
+  Gen();
 
   attribute_vp = program->GetAttrib("vp");
   attribute_vt = program->GetAttrib("vt");
@@ -27,17 +27,17 @@ void Television::Init() {
 
 
   FillVBO();
-  source->Unbind();
+  Unbind();
 }
 
 void Television::FillVBO() {
 
   numPoints = 4;
   TVStructure points[] = {
-    1.0f,  1.0f,  0.1f, 1.0f,0.0f,
+    1.0f,  0.0f,  0.1f, 1.0f,0.0f,
     1.0f, -1.0f,  0.1f, 1.0f,1.0f,
-    -1.0f, -1.0f, 0.1f, 0.0f,1.0f,
-    -1.0f, 1.0f, 0.1f, 0.0f,0.0f
+    0.0f, -1.0f, 0.1f, 0.0f,1.0f,
+    0.0f, 0.0f, 0.1f, 0.0f,0.0f
   };
 
   numIndices = 6;
@@ -70,7 +70,7 @@ void Television::FillVBO() {
 }
 
 void Television::Render() {
-  source->Bind();
+  Bind();
 
   //logger->info("TV updating...");
   glm::mat4 modelMatrix = model->GetModel();
@@ -94,7 +94,7 @@ void Television::Render() {
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
-  source->Unbind();
+  Unbind();
 }
 
 void Television::Shutdown() {

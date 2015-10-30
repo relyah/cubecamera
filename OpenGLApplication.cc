@@ -5,21 +5,28 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   logger->info("Starting OpenGLApplication...");
 
   manager = new OpenGLManager();
-  program = new OpenGLProgram();
+  program = new OpenGLProgram(string("cube.vs.glsl"),string("cube.fs.glsl"));
+  tvProgram = new OpenGLProgram(string("tvvs.glsl"),string("tvfs.glsl"));
   inputManager = new InputManager();
 
   camera = new Camera(program, screenWidth, screenHeight);
+  tvCamera = new CameraBasic(screenWidth, screenHeight);
   model = new SquareModel(camera,screenWidth, screenHeight);
-  square = new Square(program, model, true);
+  square = new Square(program, model, false);
+  television = new Television(program,tvCamera,square);
   crossHairModel = new CrossHairModel();
   crossHair = new CrossHair(program,crossHairModel);
   crossHairLocal = new CrossHair(program,model);
+
+  tvProgram->SetCamera(tvCamera);
+  tvProgram->AddObject(television);
 
   program->SetCamera(camera);
 
   program->AddObject(square);
   program->AddObject(crossHair);
   program->AddObject(crossHairLocal);
+  program->AddObject(tvProgram);
 
   inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);
@@ -39,6 +46,9 @@ OpenGLApplication::~OpenGLApplication() {
   delete program;
   delete manager;
   delete inputManager;
+  delete television;
+  delete tvProgram;
+  delete tvCamera;
   logger->info("Stopped OpenGLApplication.");
   logger = 0;
 }

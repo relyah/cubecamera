@@ -12,6 +12,10 @@
 #include "SquareModel.h"
 #include "Camera.h"
 #include "InputManager.h"
+#include "Television.h"
+#include "CameraBasic.h"
+
+using namespace std;
 
 class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener, public IDragListener, IButtonPressedListener, IButtonReleasedListener {
 public:
@@ -44,6 +48,11 @@ private:
   SquareModel *model;
   Camera *camera;
   InputManager *inputManager;
+
+  Television *television;
+  CameraBasic *tvCamera;
+  OpenGLProgram *tvProgram;
+
 };
 
 #endif
