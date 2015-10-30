@@ -18,11 +18,12 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   crossHair = new CrossHair(program,crossHairModel);
   crossHairLocal = new CrossHair(program,model);
 
+  tvProgram->SetIsClear(false);
   tvProgram->SetCamera(tvCamera);
   tvProgram->AddObject(television);
 
+  program->SetIsClear(true);
   program->SetCamera(camera);
-
   program->AddObject(square);
   program->AddObject(crossHair);
   program->AddObject(crossHairLocal);

@@ -30,11 +30,15 @@ public:
 
   virtual GLuint GetColorTexture() {return 0;}
 
+  virtual bool IsClear() {return isClear;}
+  virtual void SetIsClear(bool isClear) {this->isClear = isClear;}
+
 private:
   string vsName, fsName;
   GLuint vs, fs;
   TObjects objects;
   ICamera *camera;
+  bool isClear;
 
   void InitProgram();
 

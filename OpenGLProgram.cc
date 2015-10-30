@@ -1,6 +1,6 @@
 #include "OpenGLProgram.h"
 
-OpenGLProgram::OpenGLProgram(string vsName, string fsName) : vsName(vsName), fsName(fsName) {
+OpenGLProgram::OpenGLProgram(string vsName, string fsName) : vsName(vsName), fsName(fsName), isClear(false) {
   logger->info("Starting OpenGLProgram...");
 
   objects = TObjects();
@@ -41,8 +41,10 @@ void OpenGLProgram::Render() {
 
   Use();
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0, 0.1, 0.0, 1.0);
+  if (isClear) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0, 0.1, 0.0, 1.0);
+  }
   glPointSize(40.0f);
 
   camera->Render();
