@@ -29,6 +29,8 @@ private:
   GLint uniform_p;
   int numPoints, numIndices;
 
+  GLuint color_texture;
+
   void FillVBO();
 };
 

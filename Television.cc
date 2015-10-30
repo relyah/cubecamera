@@ -25,6 +25,45 @@ void Television::Init() {
   sstm << "TV attributes vp: " << attribute_vp << ", vt: " << attribute_vt << ", uniform m: " << uniform_m  << ", uniform_p: " << uniform_p << std::endl;
   logger->info(sstm.str());
 
+  glGenTextures(1, &color_texture);
+  glBindTexture(GL_TEXTURE_2D, color_texture);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  int size = 512;
+  glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size,size);
+
+  unsigned char* data = (unsigned char*) malloc(size * size * 4);
+	for (int col = 0; col < size; col++) {
+		float alpha = (float) M_PI * col * 360.0f / ((float) size * 180.0f);
+		for (int row = 0; row < size; row++) {
+			float beta = (float) M_PI * row * 360.0f / ((float) size * 180.0f);
+			//std::cout << (col * size + row)*4 << " " << count << std::endl;
+			int index = (col * size + row) * 4;
+			data[index] = (unsigned char) (255.0f * sin(alpha));
+			data[index + 1] = (unsigned char) (255.0f * cos(beta));
+			data[index + 2] = (unsigned char) (255.0f * sin(beta) * cos(alpha));
+			data[index + 3] = 255;
+//			data[count++] = count%255;//(unsigned char) (255.0f * sin(alpha));//
+//			data[count++] =count%255;//(unsigned char) (255.0f * cos(beta));//
+//			data[count++] =count%255;// (unsigned char) (255.0f * sin(beta) * cos(alpha));//
+//			data[count++]=255;
+		}
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, // target
+               0,  // level, 0 = base, no minimap,
+               GL_RGBA, // internalformat
+               size,  // width
+               size,  // height
+               0,  // border, always 0 in OpenGL ES
+               GL_RGBA,  // format
+               GL_UNSIGNED_BYTE, // type
+               data);
+
+	free(data);
+
+
+
 
   FillVBO();
   Unbind();
@@ -86,7 +125,8 @@ void Television::Render() {
   sstm << "TV vboPoints: " << vboPoints << std::endl;
   logger->info(sstm.str());
 
-  glBindTexture(GL_TEXTURE_2D, source->GetColorTexture());
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, color_texture);// source->GetColorTexture());
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,numIndices,GL_UNSIGNED_SHORT,0);
