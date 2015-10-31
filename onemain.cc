@@ -59,7 +59,7 @@ int main() {
   GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Cube", NULL, NULL);
   glfwMakeContextCurrent(window);
   glewInit();
-  //glEnable(GL_DEPTH_TEST); // enable depth-testing
+  glEnable(GL_DEPTH_TEST); // enable depth-testing
   //glDepthFunc(GL_LESS);
   //glEnable(GL_CULL_FACE); // cull face
   //glCullFace(GL_BACK); // cull back face
@@ -68,6 +68,7 @@ int main() {
   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   //glPolygonMode(GL_FRONT, GL_LINE); //for wireframe
   //glPolygonMode(GL_BACK, GL_LINE); //for wireframe
+  glClear(GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
   //------------------------------------------------------------------
 
@@ -184,7 +185,8 @@ int main() {
   //glBindTexture(GL_TEXTURE_2D, depth_texture);
   //glTexStorage2D(GL_TEXTURE_2D, 9, GL_DEPTH_COMPONENT32F, 512, 512);
 
-  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_textureTV, 0);
+  //glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_textureTV, 0);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, color_textureTV, 0);
   //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depth_textureTV, 0);
 
   static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
