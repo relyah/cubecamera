@@ -83,4 +83,4 @@ Logger.o: Logger.h Logger.cpp
 	g++ Logger.cpp ${CFLAGS} -c
 
 clean:
-	rm -f cubecamera cubecamera.o *.o *.*~
+	rm -f cubecamera cubecamera.o onemain *.o *.*~

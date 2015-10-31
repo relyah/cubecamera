@@ -33,6 +33,19 @@ GLint uniform_m;
 GLint uniform_v;
 GLint uniform_p;
 int numPoints, numIndices;
+GLuint fbo;
+GLuint color_texture;
+GLuint depth_texture;
+
+GLuint vaoTV;
+GLuint vboPointsTV;
+GLuint iboPointsTV;
+GLuint attribute_vpTV, attribute_vtTV;
+GLint uniform_mTV;
+GLint uniform_vTV;
+GLint uniform_pTV;
+int numPointsTV, numIndicesTV;
+GLuint color_textureTV;
 
 GLuint CreateProgram(const char *vertexfile, const char *fragmentfile, GLuint &vshader, GLuint &fshader);
 GLuint CreateShader(GLenum type, const char *filename);
@@ -58,12 +71,22 @@ int main() {
   //glPolygonMode(GL_FRONT, GL_LINE); //for wireframe
   //glPolygonMode(GL_BACK, GL_LINE); //for wireframe
   glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
+  //------------------------------------------------------------------
 
+  //------------------------------------------------------------------
 	const char *vertexfile="cube.vs.glsl";
   const char *fragmentfile="cube.fs.glsl";
   GLuint vshader;
 	GLuint fshader;
   GLuint program = CreateProgram(vertexfile, fragmentfile, vshader, fshader);
+  //------------------------------------------------------------------
+
+  //------------------------------------------------------------------
+	const char *vertexfileTV="tvvs.glsl";
+  const char *fragmentfileTV="tvfs.glsl";
+  GLuint vshaderTV;
+	GLuint fshaderTV;
+  GLuint programTV = CreateProgram(vertexfileTV, fragmentfileTV, vshaderTV, fshaderTV);
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
@@ -128,6 +151,130 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
+  glGenFramebuffers(1, &fbo);
+  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+  cout << "fbo: "<<fbo <<endl;
+  glActiveTexture(GL_TEXTURE0);
+  glGenTextures(1, &color_texture);
+  cout << "color_texture: "<<color_texture <<endl;
+  glBindTexture(GL_TEXTURE_2D, color_texture);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  int size = 512;
+  glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size,size);
+
+  unsigned char* data = (unsigned char*) malloc(size * size * 4);
+	for (int col = 0; col < size; col++) {
+  float alpha = (float) M_PI * col * 360.0f / ((float) size * 180.0f);
+  for (int row = 0; row < size; row++) {
+  int index = (col * size + row) * 4;
+  data[index] = (unsigned char) (255.0f * sin(alpha));
+}
+}
+	glTexImage2D(GL_TEXTURE_2D, // target
+    0,  // level, 0 = base, no minimap,
+    GL_RGBA, // internalformat
+    size,  // width
+    size,  // height
+    0,  // border, always 0 in OpenGL ES
+    GL_RGBA,  // format
+    GL_UNSIGNED_BYTE, // type
+    data);
+	free(data);
+  //glGenTextures(1, &depth_texture);
+  //glBindTexture(GL_TEXTURE_2D, depth_texture);
+  //glTexStorage2D(GL_TEXTURE_2D, 9, GL_DEPTH_COMPONENT32F, 512, 512);
+
+  //glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_texture, 0);
+  //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depth_texture, 0);
+
+  static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
+  glDrawBuffers(1, draw_buffers);
+
+  glBindTexture(GL_TEXTURE_2D, 0);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  //------------------------------------------------------------------
+
+
+  //------------------------------------------------------------------
+  glGenVertexArrays(1, &vaoTV);
+  glBindVertexArray(vaoTV);
+
+  attribute_vpTV = GetAttrib(programTV, "vp");
+  attribute_vtTV = GetAttrib(programTV,"vt");
+
+  uniform_mTV = GetUniform(programTV,"model");
+  uniform_vTV = GetUniform(programTV,"view");
+  uniform_pTV = GetUniform(programTV,"projection");
+  
+  glGenTextures(1, &color_textureTV);
+  glBindTexture(GL_TEXTURE_2D, color_textureTV);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  size = 512;
+  glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size,size);
+
+  data = (unsigned char*) malloc(size * size * 4);
+  for (int col = 0; col < size; col++) {
+  float alpha = (float) M_PI * col * 360.0f / ((float) size * 180.0f);
+  for (int row = 0; row < size; row++) {
+  float beta = (float) M_PI * row * 360.0f / ((float) size * 180.0f);
+  //std::cout << (col * size + row)*4 << " " << count << std::endl;
+  int index = (col * size + row) * 4;
+  data[index] = (unsigned char) (255.0f * sin(alpha));
+  data[index + 1] = (unsigned char) (255.0f * cos(beta));
+  data[index + 2] = (unsigned char) (255.0f * sin(beta) * cos(alpha));
+  data[index + 3] = 255;
+}
+}
+
+  glTexImage2D(GL_TEXTURE_2D, // target
+    0,  // level, 0 = base, no minimap,
+    GL_RGBA, // internalformat
+    size,  // width
+    size,  // height
+    0,  // border, always 0 in OpenGL ES
+    GL_RGBA,  // format
+    GL_UNSIGNED_BYTE, // type
+    data);
+
+  free(data);
+  
+  numPointsTV = 4;
+  TVStructure pointsTV[] = {
+  1.0f,  0.0f,  0.1f, 1.0f,0.0f,
+    1.0f, -1.0f,  0.1f, 1.0f,1.0f,
+    0.0f, -1.0f, 0.1f, 0.0f,1.0f,
+    0.0f, 0.0f, 0.1f, 0.0f,0.0f
+    };
+
+  numIndicesTV = 6;
+  unsigned short pointsIndexTV[] = {
+  0,1,2,2,3,0};
+
+  glGenBuffers(1, &vboPointsTV);
+  glGenBuffers(1, &iboPointsTV);
+
+  glBindBuffer(GL_ARRAY_BUFFER, vboPointsTV);
+  glBufferData(GL_ARRAY_BUFFER, numPointsTV * sizeof(VertexStructure), pointsTV, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPointsTV);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,numIndicesTV*sizeof(unsigned short), pointsIndexTV, GL_STATIC_DRAW);
+
+  glEnableVertexAttribArray(attribute_vpTV);
+  glVertexAttribPointer (attribute_vpTV, 3, GL_FLOAT, GL_FALSE, sizeof(TVStructure), (GLubyte*)NULL);
+
+  glEnableVertexAttribArray(attribute_vtTV);
+  glVertexAttribPointer(attribute_vtTV, 2, GL_FLOAT, GL_FALSE, sizeof(TVStructure),(GLvoid*)offsetof(struct TVStructure, texcoord));
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  glBindVertexArray(0);
+  //------------------------------------------------------------------
+
+  //------------------------------------------------------------------
+  glUseProgram(program);
   glBindVertexArray(vao);
 
   //logger->info("Square updating...");
@@ -145,7 +292,29 @@ int main() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   glBindVertexArray(0);
+  //------------------------------------------------------------------
 
+  //------------------------------------------------------------------
+  glUseProgram(programTV);
+  glBindVertexArray(vaoTV);
+
+  modelMatrix = glm::mat4(1.0f);
+  glUniformMatrix4fv(uniform_mTV,1,GL_FALSE,glm::value_ptr(modelMatrix));
+
+  viewMatrix = glm::mat4(1.0f);
+  glUniformMatrix4fv(uniform_vTV,1,GL_FALSE,glm::value_ptr(viewMatrix));
+
+  projectionMatrix = glm::mat4(1.0f);
+  glUniformMatrix4fv(uniform_pTV,1,GL_FALSE,glm::value_ptr(projectionMatrix));
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPointsTV);
+  glDrawElements(GL_TRIANGLES,numIndices,GL_UNSIGNED_SHORT,0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  glBindVertexArray(0);
+  //------------------------------------------------------------------
+
+  //------------------------------------------------------------------
   glfwSwapBuffers(window);
   //------------------------------------------------------------------
 
@@ -153,6 +322,7 @@ int main() {
 
   //------------------------------------------------------------------
   glDeleteProgram(program);
+  glDeleteProgram(programTV);
   glfwTerminate();
   //------------------------------------------------------------------
 }
