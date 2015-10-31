@@ -61,6 +61,8 @@ void Camera::Init() {
   sstm.str(std::string());
   sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
   logger->info(sstm.str());
+
+  Unbind();
 }
 
 void Camera::Gen() {
@@ -84,6 +86,8 @@ void Camera::Render() {
     if (isCameraMoving) {
       RenderRay();
     }
+
+    Unbind();
 
   }
 }

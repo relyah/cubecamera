@@ -30,6 +30,8 @@ void Square::Init() {
   FillVBO();
   InitFBO();
   Unbind();
+
+
 }
 
 void Square::FillVBO() {
@@ -90,8 +92,8 @@ void Square::FillVBO() {
 void Square::InitFBO() {
   if  (!isRenderToFBO) {return;}
 
-  glGenFramebuffers(1, &fbo);
-  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+//  glGenFramebuffers(1, &fbo);
+//  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
   glGenTextures(1, &color_texture);
   glBindTexture(GL_TEXTURE_2D, color_texture);
@@ -150,7 +152,10 @@ void Square::Render() {
   Bind();
 
   if (isRenderToFBO) {
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    std::cout << "rendering to fbo. fbo=" << fbo << ", color_texture=" << color_texture << std::endl;
+
+    //  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glBindTexture(GL_TEXTURE_2D, color_texture);
   }
 
@@ -173,7 +178,30 @@ void Square::Render() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   if (isRenderToFBO) {
-    glBindTexture(GL_TEXTURE_2D, 0);
+
+    //glBindTexture(GL_TEXTURE_2D, 0);
+    int size = 512;
+    unsigned char* dataFBO = (unsigned char*) malloc(size * size * 4);
+    unsigned char* dataTEX = (unsigned char*) malloc(size * size * 4);
+    glReadPixels(0,0,size,size,GL_RGBA,  // format
+                 GL_UNSIGNED_BYTE, // type
+                 dataFBO);
+
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_UNSIGNED_BYTE,dataTEX);
+
+    for (int col = 0; col < size; col++) {
+      for (int row = 0; row < size; row++) {
+        int index = (col * size + row) * 4;
+        //if (dataFBO[index]!=dataTEX[index]) {std::cout << "ERROR" << std::endl;}
+        //std::cout << (int)(dataFBO[index]) << " ";
+      }
+      //std::cout << std::endl;
+    }
+
+    free(dataFBO);
+    free(dataTEX);
+
+    //glBindTexture(GL_TEXTURE_2D, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
   }
 

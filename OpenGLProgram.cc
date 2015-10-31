@@ -60,6 +60,7 @@ void OpenGLProgram::RenderObjects() {
   if (objects.size()==0) {return;}
 
   for (TObjects::iterator it = objects.begin() ; it != objects.end(); ++it) {
+    camera->Render();
     (*it)->Render();
   }
 }

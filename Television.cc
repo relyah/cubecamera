@@ -25,6 +25,7 @@ void Television::Init() {
   sstm << "TV attributes vp: " << attribute_vp << ", vt: " << attribute_vt << ", uniform m: " << uniform_m  << ", uniform_p: " << uniform_p << std::endl;
   logger->info(sstm.str());
 
+  
   glGenTextures(1, &color_texture);
   glBindTexture(GL_TEXTURE_2D, color_texture);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -33,24 +34,24 @@ void Television::Init() {
   glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size,size);
 
   unsigned char* data = (unsigned char*) malloc(size * size * 4);
-	for (int col = 0; col < size; col++) {
+  for (int col = 0; col < size; col++) {
 		float alpha = (float) M_PI * col * 360.0f / ((float) size * 180.0f);
 		for (int row = 0; row < size; row++) {
-			float beta = (float) M_PI * row * 360.0f / ((float) size * 180.0f);
-			//std::cout << (col * size + row)*4 << " " << count << std::endl;
-			int index = (col * size + row) * 4;
-			data[index] = (unsigned char) (255.0f * sin(alpha));
-			data[index + 1] = (unsigned char) (255.0f * cos(beta));
-			data[index + 2] = (unsigned char) (255.0f * sin(beta) * cos(alpha));
-			data[index + 3] = 255;
+      float beta = (float) M_PI * row * 360.0f / ((float) size * 180.0f);
+      //std::cout << (col * size + row)*4 << " " << count << std::endl;
+      int index = (col * size + row) * 4;
+      data[index] = (unsigned char) (255.0f * sin(alpha));
+      data[index + 1] = (unsigned char) (255.0f * cos(beta));
+      data[index + 2] = (unsigned char) (255.0f * sin(beta) * cos(alpha));
+      data[index + 3] = 255;
 //			data[count++] = count%255;//(unsigned char) (255.0f * sin(alpha));//
 //			data[count++] =count%255;//(unsigned char) (255.0f * cos(beta));//
 //			data[count++] =count%255;// (unsigned char) (255.0f * sin(beta) * cos(alpha));//
 //			data[count++]=255;
-		}
-	}
+    }
+  }
 
-	glTexImage2D(GL_TEXTURE_2D, // target
+  glTexImage2D(GL_TEXTURE_2D, // target
                0,  // level, 0 = base, no minimap,
                GL_RGBA, // internalformat
                size,  // width
@@ -60,8 +61,8 @@ void Television::Init() {
                GL_UNSIGNED_BYTE, // type
                data);
 
-	free(data);
-
+  free(data);
+  
 
 
 
@@ -109,6 +110,9 @@ void Television::FillVBO() {
 }
 
 void Television::Render() {
+
+  //glBindFramebuffer(GL_FRAMEBUFFER,0);
+
   Bind();
 
   //logger->info("TV updating...");
@@ -126,7 +130,40 @@ void Television::Render() {
   logger->info(sstm.str());
 
   glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, color_texture);// source->GetColorTexture());
+  glBindTexture(GL_TEXTURE_2D,color_texture);//
+  /*
+    std::cout << "using color_texture=" <<source->GetColorTexture() << std::endl;
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,  source->GetColorTexture()); //color_texture);//
+
+    int size = 512;
+    unsigned char* dataTEX = (unsigned char*) malloc(size * size * 4);
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_UNSIGNED_BYTE,dataTEX);
+
+    for (int col = 0; col < size; col++) {
+    for (int row = 0; row < size; row++) {
+    int index = (col * size + row) * 4;
+    //if (dataFBO[index]!=dataTEX[index]) {std::cout << "ERROR" << std::endl;}
+    //std::cout << (int)(dataTEX[index]) << " ";
+    }
+    //std::cout << std::endl;
+    }
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,  color_texture);//
+
+
+    glTexImage2D(GL_TEXTURE_2D, // target
+    0,  // level, 0 = base, no minimap,
+    GL_RGBA, // internalformat
+    size,  // width
+    size,  // height
+    0,  // border, always 0 in OpenGL ES
+    GL_RGBA,  // format
+    GL_UNSIGNED_BYTE, // type
+    dataTEX);
+
+    free(dataTEX);*/
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,numIndices,GL_UNSIGNED_SHORT,0);

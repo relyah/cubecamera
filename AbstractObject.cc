@@ -18,10 +18,12 @@ void AbstractObject::Gen() {
 }
 
 void AbstractObject::Bind() {
+  std::cout << "Binding VAO: " << vao << std::endl;
   glBindVertexArray(vao);
 }
 
 void AbstractObject::Unbind() {
+  std::cout << "UnBinding VAO: " << vao << std::endl;
   glBindVertexArray(0);
 }
 
