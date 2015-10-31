@@ -143,6 +143,10 @@ void Square::InitFBO() {
   static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
   glDrawBuffers(1, draw_buffers);
 
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    std::cout << "ERROR: framebuffer failed." << std::endl;
+  }
+
   glBindTexture(GL_TEXTURE_2D, 0);
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -150,6 +154,7 @@ void Square::InitFBO() {
 
 void Square::Render() {
   Bind();
+  //glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   if (isRenderToFBO) {
 
@@ -177,6 +182,8 @@ void Square::Render() {
   glDrawElements(GL_TRIANGLES,numIndices,GL_UNSIGNED_SHORT,0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+  Unbind();
+
   if (isRenderToFBO) {
 
     //glBindTexture(GL_TEXTURE_2D, 0);
@@ -202,10 +209,10 @@ void Square::Render() {
     free(dataTEX);
 
     //glBindTexture(GL_TEXTURE_2D, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    //glBindFramebuffer(GL_FRAMEBUFFER, 0);
   }
 
-  Unbind();
+
 }
 
 void Square::Shutdown() {

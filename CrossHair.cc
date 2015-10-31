@@ -46,6 +46,7 @@ void CrossHair::Init() {
 
 void CrossHair::Render() {
   Bind();
+
   glm::mat4 modelMatrix = model->GetModel();
   glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
