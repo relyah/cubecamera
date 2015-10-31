@@ -33,10 +33,8 @@ GLint uniform_m;
 GLint uniform_v;
 GLint uniform_p;
 int numPoints, numIndices;
-GLuint fbo;
-GLuint color_texture;
-GLuint depth_texture;
 
+GLuint fboTV;
 GLuint vaoTV;
 GLuint vboPointsTV;
 GLuint iboPointsTV;
@@ -151,17 +149,18 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
-  glGenFramebuffers(1, &fbo);
-  glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-  cout << "fbo: "<<fbo <<endl;
-  glActiveTexture(GL_TEXTURE0);
-  glGenTextures(1, &color_texture);
-  cout << "color_texture: "<<color_texture <<endl;
-  glBindTexture(GL_TEXTURE_2D, color_texture);
+
+  glGenFramebuffers(1, &fboTV);
+  glBindFramebuffer(GL_FRAMEBUFFER, fboTV);
+  cout << "fboTV: "<<fboTV <<endl;
+  //glActiveTexture(GL_TEXTURE0);
+  glGenTextures(1, &color_textureTV);
+  cout << "color_texture: "<<color_textureTV <<endl;
+  glBindTexture(GL_TEXTURE_2D, color_textureTV);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   int size = 512;
-  glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size,size);
+  glTexStorage2D(GL_TEXTURE_2D, 9, GL_RGBA8, size,size);
 
   unsigned char* data = (unsigned char*) malloc(size * size * 4);
 	for (int col = 0; col < size; col++) {
@@ -172,7 +171,7 @@ int main() {
 }
 }
 	glTexImage2D(GL_TEXTURE_2D, // target
-    0,  // level, 0 = base, no minimap,
+    9,  // level, 0 = base, no minimap,
     GL_RGBA, // internalformat
     size,  // width
     size,  // height
@@ -185,8 +184,8 @@ int main() {
   //glBindTexture(GL_TEXTURE_2D, depth_texture);
   //glTexStorage2D(GL_TEXTURE_2D, 9, GL_DEPTH_COMPONENT32F, 512, 512);
 
-  //glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_texture, 0);
-  //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depth_texture, 0);
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_textureTV, 0);
+  //glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depth_textureTV, 0);
 
   static const GLenum draw_buffers[] = { GL_COLOR_ATTACHMENT0 };
   glDrawBuffers(1, draw_buffers);
@@ -276,6 +275,7 @@ int main() {
   //------------------------------------------------------------------
   glUseProgram(program);
   glBindVertexArray(vao);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   //logger->info("Square updating...");
   glm::mat4 modelMatrix = glm::mat4(1.0f);
