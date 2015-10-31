@@ -55,6 +55,7 @@ GLint GetAttrib(GLuint program, const char *name);
 int main() {
 
   //------------------------------------------------------------------
+  //setup opengl
   glfwInit();
   GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Cube", NULL, NULL);
   glfwMakeContextCurrent(window);
@@ -68,11 +69,12 @@ int main() {
   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   //glPolygonMode(GL_FRONT, GL_LINE); //for wireframe
   //glPolygonMode(GL_BACK, GL_LINE); //for wireframe
-  glClear(GL_DEPTH_BUFFER_BIT);
+  glClear(GL_DEPTH_BUFFER_BIT); //THIS IS IMPORTANT ???
   //glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
+  //load program 1
 	const char *vertexfile="cube.vs.glsl";
   const char *fragmentfile="cube.fs.glsl";
   GLuint vshader;
@@ -81,6 +83,7 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
+  //load program 2 (television)
 	const char *vertexfileTV="tvvs.glsl";
   const char *fragmentfileTV="tvfs.glsl";
   GLuint vshaderTV;
@@ -89,6 +92,7 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
+  //create first vao
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
   attribute_vp = GetAttrib(program,"vp");
@@ -150,7 +154,7 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
-
+//create texture - framebuffer
   glGenTextures(1, &color_textureTV);
   cout << "color_texture: "<<color_textureTV <<endl;
   glBindTexture(GL_TEXTURE_2D, color_textureTV);
@@ -201,6 +205,7 @@ int main() {
 
 
   //------------------------------------------------------------------
+  //create vao for television
   glGenVertexArrays(1, &vaoTV);
   glBindVertexArray(vaoTV);
 
@@ -247,6 +252,7 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
+  //render program 1 (into framebuffer)
   glUseProgram(program);
   glBindVertexArray(vao);
   glBindFramebuffer(GL_FRAMEBUFFER, fboTV); //drawing into framebuffer
@@ -269,6 +275,8 @@ int main() {
   //------------------------------------------------------------------
 
   //------------------------------------------------------------------
+  //render texture (i.e. the result of first program)
+  //looks like texture is used by default ???
   glUseProgram(programTV);
   glBindVertexArray(vaoTV);
   glBindFramebuffer(GL_FRAMEBUFFER, 0); //go back to default framebuffer
@@ -293,7 +301,7 @@ int main() {
   glfwSwapBuffers(window);
   //------------------------------------------------------------------
 
-  getchar();
+  getchar(); //wait for user input
 
   //------------------------------------------------------------------
   glDeleteProgram(program);
