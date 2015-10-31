@@ -1,3 +1,6 @@
+LIBS_GL=-lglfw -lGLEW -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread
+LIBS_OTHER=-llog4cpp
+
 IMPL_CFLAGS = -std=c++11 -D_XOPEN_SOURCE=600 \
 		-D_DEFAULT_SOURCE \
 		-pipe \
@@ -5,12 +8,31 @@ IMPL_CFLAGS = -std=c++11 -D_XOPEN_SOURCE=600 \
 		-pedantic \
 		-Wall \
 		-W \
+		-Wmissing-prototypes \
 		-Wno-sign-compare \
 		-Wno-unused-parameter
 
-LIBS = -lGL -lepoxy -llog4cpp
+CFLAGS = ${IMPL_CFLAGS}
+#
+## IMPL_CFLAGS = -std=c++11 -D_XOPEN_SOURCE=600 \
+#		-D_DEFAULT_SOURCE \
+#		-pipe \
+#		-g \
+#		-pedantic \
+#		-Wall \
+#		-W \
+#		-Wno-sign-compare \
+#		-Wno-unused-parameter
+#
+#LIBS = -lGL -lepoxy -llog4cpp
+#
+#CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
+#
+onemain: onemain.o
+	g++ ${CFLAGS} -o onemain onemain.o ${LIBS_GL}
 
-CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
+onemain.o: onemain.cc
+	g++ onemain.cc ${CFLAGS} -c
 
 cubecamera: cubecamera.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Television.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o AbstractCamera.o interface.ui.xml
 	g++ ${CFLAGS} -o cubecamera cubecamera.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Television.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o AbstractCamera.o

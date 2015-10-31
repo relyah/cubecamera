@@ -1,5 +1,7 @@
 #project specific files
 cube
+cubecamera
+onemain
 GPATH
 GRTAGS
 GSYMS
@@ -37,3 +39,6 @@ GTAGS
 # temporary files
 \#*\#
 .\#.*
+
+.fuse_hidden*
+
