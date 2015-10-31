@@ -25,9 +25,9 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->SetIsClear(true);
   program->SetCamera(camera);
   program->AddObject(square);
-  program->AddObject(crossHair);
-  program->AddObject(crossHairLocal);
-  //program->AddObject(tvProgram);
+  //program->AddObject(crossHair);
+  //program->AddObject(crossHairLocal);
+  program->AddObject(tvProgram);
 
   inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);

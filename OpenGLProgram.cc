@@ -23,7 +23,7 @@ void OpenGLProgram::Init() {
 
   InitProgram();
 
-  camera->Init();
+  //camera->Init();
   InitObjects();
 }
 
@@ -42,12 +42,12 @@ void OpenGLProgram::Render() {
   Use();
 
   if (isClear) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.0, 0.1, 0.0, 1.0);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glClearColor(0.0, 0.1, 0.0, 1.0);
   }
   glPointSize(40.0f);
 
-  camera->Render();
+  //camera->Render();
   RenderObjects();
 
   glBindVertexArray (0);

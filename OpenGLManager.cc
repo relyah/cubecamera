@@ -33,7 +33,8 @@ void OpenGLManager::Init(OpenGLManager *manager) {
   //glEnable(GL_PROGRAM_POINT_SIZE); //use gl_PointSize in shader
   glDisable(GL_PROGRAM_POINT_SIZE);glPointSize(40.0f); //use glPointSize from the code 
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_DEPTH_BUFFER_BIT); //THIS IS IMPORTANT ???
+  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
 }
 

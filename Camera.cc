@@ -27,7 +27,7 @@ glm::vec3 Camera::GetPosition() {
 }
 
 void Camera::Init() {
-  Gen();
+/*  Gen();
   isChanged = true;
 
   GLuint attribute_vp = program->GetAttrib("vp");
@@ -62,7 +62,7 @@ void Camera::Init() {
   sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
   logger->info(sstm.str());
 
-  Unbind();
+  Unbind();*/
 }
 
 void Camera::Gen() {
@@ -71,7 +71,7 @@ void Camera::Gen() {
 }
 
 void Camera::Render() {
-  if (isChanged) {
+  /*if (isChanged) {
     Bind();
     isChanged = false;
 
@@ -89,7 +89,7 @@ void Camera::Render() {
 
     Unbind();
 
-  }
+  }*/
 }
 
 void Camera::Shutdown() {
