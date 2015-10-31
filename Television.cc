@@ -25,7 +25,7 @@ void Television::Init() {
   sstm << "TV attributes vp: " << attribute_vp << ", vt: " << attribute_vt << ", uniform m: " << uniform_m  << ", uniform_p: " << uniform_p << std::endl;
   logger->info(sstm.str());
 
-  /*
+  
     glGenTextures(1, &color_texture);
     glBindTexture(GL_TEXTURE_2D, color_texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -44,10 +44,6 @@ void Television::Init() {
     data[index + 1] = (unsigned char) (255.0f * cos(beta));
     data[index + 2] = (unsigned char) (255.0f * sin(beta) * cos(alpha));
     data[index + 3] = 255;
-//			data[count++] = count%255;//(unsigned char) (255.0f * sin(alpha));//
-//			data[count++] =count%255;//(unsigned char) (255.0f * cos(beta));//
-//			data[count++] =count%255;// (unsigned char) (255.0f * sin(beta) * cos(alpha));//
-//			data[count++]=255;
 }
 }
 
@@ -62,7 +58,6 @@ GL_UNSIGNED_BYTE, // type
 data);
 
 free(data);
-  */
 
   FillVBO();
   Unbind();
@@ -110,7 +105,7 @@ void Television::FillVBO() {
 void Television::Render() {
 
   Bind();
-  //glBindFramebuffer(GL_FRAMEBUFFER,0);
+  glBindFramebuffer(GL_FRAMEBUFFER,0);
 
   //logger->info("TV updating...");
   glm::mat4 modelMatrix = model->GetModel();
@@ -128,7 +123,7 @@ void Television::Render() {
 
   //glActiveTexture(GL_TEXTURE0);
   //glBindTexture(GL_TEXTURE_2D,color_texture);//
-
+/*
   std::cout << "using color_texture=" <<source->GetColorTexture() << std::endl;
   //glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D,  source->GetColorTexture()); //color_texture);//
@@ -149,7 +144,7 @@ void Television::Render() {
 			dataTEX[index + 3] = 255;
     }
   }
-
+*/
   /*for (int col = 0; col < size; col++) {
     for (int row = 0; row < size; row++) {
     int index = (col * size + row) * 4;
@@ -159,6 +154,7 @@ void Television::Render() {
     //std::cout << std::endl;
     }*/
 
+  /*
   glTexImage2D(GL_TEXTURE_2D, // target
                0,  // level, 0 = base, no minimap,
                GL_RGBA, // internalformat
@@ -170,7 +166,7 @@ void Television::Render() {
                dataTEX);
 
   free(dataTEX);
-
+*/
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,numIndices,GL_UNSIGNED_SHORT,0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
